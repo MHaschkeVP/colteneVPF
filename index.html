@@ -1,0 +1,3104 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<base target="_self">
+<title>COLTENE Verpackungsfahrplan 2026 — R003</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --color-teal: #20DAD3;
+  --color-teal-text: #0E7A76;
+  --color-yellow: #FFD700;
+  --color-pink: #FF0099;
+  --color-text: #2D2D2D;
+  --color-bg: #F5F5F5;
+  --color-white: #FFFFFF;
+  --font-main: 'Poppins', system-ui, sans-serif;
+
+  /* Aliases für Kompatibilität */
+  --primary: #20DAD3;
+  --primary-text: #0E7A76;
+  --accent: #FFD700;
+  --signal: #FF0099;
+  --text: #2D2D2D;
+  --secondary: #6B6B6B;
+  --bg: #F5F5F5;
+  --white: #FFFFFF;
+  --radius: 8px;
+  --shadow: 0 2px 8px rgba(0,0,0,0.08);
+  --risk-high: #FF0099;
+  --risk-medium: #FFD700;
+  --risk-low: #20DAD3;
+  --risk-ok: #2ECC71;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-main);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* ---- LAYOUT ---- */
+.layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ---- SIDEBAR ---- */
+.sidebar {
+  width: 240px;
+  min-width: 240px;
+  background: var(--white);
+  box-shadow: 2px 0 8px rgba(0,0,0,0.06);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  overflow-y: auto;
+  z-index: 100;
+}
+
+.sidebar-logo {
+  padding: 1.25rem 1rem 1rem;
+  border-bottom: 1px solid #ECECEC;
+}
+
+.sidebar-logo .brand {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.sidebar-logo .project-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--primary-text);
+  margin-top: 0.25rem;
+  line-height: 1.3;
+}
+
+.sidebar-logo .project-sub {
+  font-size: 0.7rem;
+  color: var(--secondary);
+  margin-top: 0.15rem;
+}
+
+.sidebar-nav {
+  flex: 1;
+  padding: 0.5rem 0 1rem;
+}
+
+.nav-group-label {
+  font-size: 0.62rem;
+  font-weight: 700;
+  color: var(--secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 0.75rem 1rem 0.25rem;
+}
+
+.nav-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  border-left: 3px solid transparent;
+  padding: 0.5rem 1rem 0.5rem 0.85rem;
+  font-family: var(--font-main);
+  font-size: 0.78rem;
+  font-weight: 400;
+  color: var(--text);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  line-height: 1.4;
+}
+
+.nav-item:hover {
+  background: rgba(32, 218, 211, 0.06);
+  color: var(--primary-text);
+}
+
+.nav-item.active {
+  border-left-color: var(--primary);
+  background: rgba(32, 218, 211, 0.08);
+  color: var(--primary-text);
+  font-weight: 600;
+}
+
+.nav-item .nav-number {
+  display: inline-block;
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin-right: 0.35rem;
+  min-width: 1.1rem;
+}
+
+/* ---- HAMBURGER ---- */
+.hamburger {
+  display: none;
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 200;
+  background: var(--primary);
+  border: none;
+  border-radius: var(--radius);
+  width: 38px;
+  height: 38px;
+  cursor: pointer;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.hamburger span {
+  display: block;
+  width: 20px;
+  height: 2px;
+  background: var(--white);
+  border-radius: 2px;
+}
+
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  z-index: 99;
+}
+
+/* ---- MAIN ---- */
+.main {
+  flex: 1;
+  margin-left: 240px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.top-bar {
+  background: var(--white);
+  border-bottom: 1px solid #ECECEC;
+  padding: 0.75rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  box-shadow: var(--shadow);
+}
+
+.top-bar-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--primary-text);
+}
+
+.top-bar-meta {
+  font-size: 0.72rem;
+  color: var(--secondary);
+}
+
+.kbd-hint {
+  font-size: 0.68rem;
+  color: var(--secondary);
+  background: var(--bg);
+  border: 1px solid #E0E0E0;
+  border-radius: 4px;
+  padding: 0.15rem 0.5rem;
+}
+
+/* ---- KPI ROW (sticky) ---- */
+.kpi-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+  padding: 1rem 2rem 0;
+  background: var(--bg);
+  position: sticky;
+  top: 53px;
+  z-index: 40;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #E8E8E8;
+}
+
+.kpi-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 1rem 0.85rem;
+  box-shadow: var(--shadow);
+  text-align: center;
+  position: relative;
+}
+
+.kpi-card .kpi-value {
+  font-size: 1.75rem;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.kpi-card .kpi-label {
+  font-size: 0.68rem;
+  color: var(--secondary);
+  font-weight: 600;
+  margin-top: 0.2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  line-height: 1.3;
+}
+
+.kpi-source {
+  font-size: 0.6rem;
+  color: var(--secondary);
+  margin-top: 0.2rem;
+  font-style: italic;
+}
+
+/* ---- CONTENT ---- */
+.content-area {
+  flex: 1;
+  padding: 1.5rem 2rem 2rem;
+}
+
+.section { display: none; }
+.section.active { display: block; }
+
+/* ---- SECTION HEADER ---- */
+.section-header {
+  margin-bottom: 1.5rem;
+}
+
+.section-header h1 {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--primary-text);
+  line-height: 1.2;
+}
+
+.section-header .section-sub {
+  font-size: 0.82rem;
+  color: var(--secondary);
+  margin-top: 0.3rem;
+}
+
+.section-header .step-badge {
+  display: inline-block;
+  background: var(--primary);
+  color: var(--white);
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* ---- CARDS / BOXES ---- */
+.card {
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.card-title {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--primary-text);
+  margin-bottom: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* ---- TABLES ---- */
+.table-wrap {
+  overflow-x: auto;
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  margin-bottom: 1rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+}
+
+thead th {
+  background: var(--primary);
+  color: var(--white);
+  font-weight: 600;
+  text-align: left;
+  padding: 0.65rem 0.85rem;
+  white-space: nowrap;
+}
+
+tbody tr:nth-child(even) { background: var(--bg); }
+tbody tr:nth-child(odd) { background: var(--white); }
+
+tbody td {
+  padding: 0.5rem 0.85rem;
+  border-bottom: 1px solid #ECECEC;
+  vertical-align: top;
+  line-height: 1.5;
+}
+
+tbody tr:last-child td { border-bottom: none; }
+
+/* ---- BADGES ---- */
+.badge {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.badge-ok { background: rgba(46,204,113,0.15); color: #1a7a43; }
+.badge-warn { background: rgba(255,215,0,0.2); color: #7a5f00; }
+.badge-alert { background: rgba(255,0,153,0.12); color: #c0006b; }
+.badge-teal { background: rgba(32,218,211,0.15); color: var(--primary-text); }
+.badge-gray { background: #ECECEC; color: var(--secondary); }
+
+/* ---- COLLAPSIBLE ---- */
+.collapsible {
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  margin-bottom: 0.75rem;
+  overflow: hidden;
+}
+
+.collapsible-header {
+  width: 100%;
+  background: none;
+  border: none;
+  text-align: left;
+  padding: 0.9rem 1.25rem;
+  font-family: var(--font-main);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--primary-text);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background 0.15s;
+}
+
+.collapsible-header:hover { background: rgba(32,218,211,0.05); }
+
+.collapsible-icon {
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--primary);
+  flex-shrink: 0;
+  transition: transform 0.25s;
+}
+
+.collapsible.open .collapsible-icon { transform: rotate(45deg); }
+
+.collapsible-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease;
+}
+
+.collapsible.open .collapsible-body { max-height: 9000px; }
+
+.collapsible-body-inner {
+  padding: 0 1.25rem 1.25rem;
+}
+
+/* ---- EXPAND ALL BUTTON ---- */
+.expand-all-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 0.5rem;
+  gap: 0.5rem;
+}
+
+.btn-sm {
+  font-family: var(--font-main);
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.3rem 0.85rem;
+  border-radius: 20px;
+  border: 1.5px solid var(--primary);
+  background: none;
+  color: var(--primary-text);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.btn-sm:hover { background: var(--primary); color: var(--white); }
+
+/* ---- QUICK-LINK BUTTONS ---- */
+.btn-primary {
+  display: inline-block;
+  font-family: var(--font-main);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.5rem 1.2rem;
+  background: var(--primary);
+  color: var(--white);
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: opacity 0.2s;
+  margin-right: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.btn-primary:hover { opacity: 0.85; }
+
+/* ---- INFO-ICON TOOLTIP ---- */
+.info-icon {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--primary-text);
+  color: var(--white);
+  font-size: 0.6rem;
+  font-weight: 700;
+  text-align: center;
+  line-height: 16px;
+  cursor: help;
+  margin-left: 0.3rem;
+  position: relative;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+
+.info-icon::after {
+  content: attr(data-tip);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--text);
+  color: var(--white);
+  font-size: 0.68rem;
+  font-weight: 400;
+  padding: 0.5rem 0.85rem;
+  border-radius: 6px;
+  white-space: normal;
+  max-width: 320px;
+  line-height: 1.5;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+  z-index: 1000;
+  min-width: 200px;
+  text-align: left;
+}
+
+.info-icon:hover::after { opacity: 1; }
+
+/* ---- TOOLTIPS (inline text) ---- */
+.tooltip {
+  border-bottom: 1px dashed var(--primary-text);
+  cursor: help;
+  position: relative;
+}
+
+.tooltip::after {
+  content: attr(data-tip);
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--text);
+  color: var(--white);
+  font-size: 0.68rem;
+  font-weight: 400;
+  padding: 0.4rem 0.75rem;
+  border-radius: 4px;
+  white-space: normal;
+  max-width: 280px;
+  line-height: 1.4;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+  z-index: 1000;
+}
+
+.tooltip:hover::after { opacity: 1; }
+
+/* ---- COMPLIANCE AMPEL ---- */
+.ampel-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.ampel-item {
+  background: var(--bg);
+  border-radius: var(--radius);
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  text-align: center;
+  position: relative;
+  cursor: default;
+}
+
+.ampel-dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.ampel-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.3;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  justify-content: center;
+}
+
+.ampel-status {
+  font-size: 0.65rem;
+  color: var(--secondary);
+}
+
+/* ---- KOSTENBALKEN ---- */
+.cost-bars {
+  padding: 0.5rem 0;
+}
+
+.cost-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.cost-bar-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text);
+  min-width: 220px;
+  flex-shrink: 0;
+}
+
+.cost-bar-track {
+  flex: 1;
+  background: #E0E0E0;
+  border-radius: 4px;
+  height: 20px;
+  overflow: hidden;
+  position: relative;
+}
+
+.cost-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  padding-left: 0.5rem;
+}
+
+.cost-bar-pct {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--white);
+  white-space: nowrap;
+}
+
+.cost-sum-row {
+  background: rgba(14,122,118,0.08);
+  border-left: 3px solid var(--primary-text);
+  border-radius: 0 4px 4px 0;
+  padding: 0.6rem 1rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--primary-text);
+  margin-top: 0.5rem;
+}
+
+/* ---- PPWR GAP MATRIX ---- */
+.ppwr-matrix {
+  overflow-x: auto;
+}
+
+.ppwr-matrix table {
+  font-size: 0.75rem;
+}
+
+.cell-ok { background: rgba(46,204,113,0.15); color: #1a7a43; font-weight: 600; }
+.cell-alert { background: rgba(255,0,153,0.12); color: #c0006b; font-weight: 600; }
+.cell-warn { background: rgba(255,215,0,0.2); color: #7a5f00; font-weight: 600; }
+.cell-neutral { background: var(--bg); color: var(--secondary); font-size: 0.7rem; }
+
+/* ---- PPWR TIMELINE ---- */
+.timeline-wrap {
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+}
+
+.timeline {
+  position: relative;
+  min-width: 600px;
+  padding: 2.5rem 1rem 2.5rem;
+}
+
+.timeline-line {
+  position: absolute;
+  top: 50%;
+  left: 1rem;
+  right: 1rem;
+  height: 3px;
+  background: var(--primary);
+  transform: translateY(-50%);
+  z-index: 1;
+}
+
+.timeline-items {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  z-index: 2;
+}
+
+.timeline-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}
+
+.timeline-item.label-top { flex-direction: column-reverse; }
+
+.timeline-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--primary);
+  border: 2px solid var(--white);
+  box-shadow: 0 0 0 2px var(--primary);
+  flex-shrink: 0;
+}
+
+.timeline-year {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--primary-text);
+  margin: 0.3rem 0;
+}
+
+.timeline-desc {
+  font-size: 0.65rem;
+  color: var(--text);
+  text-align: center;
+  max-width: 90px;
+  line-height: 1.3;
+  padding: 0.2rem 0;
+}
+
+/* ---- DREI-SPALTEN PRODUKTSCHUTZ ---- */
+.three-col {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.level-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.level-card-head {
+  background: var(--primary);
+  color: var(--white);
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 0.6rem 0.85rem;
+  text-align: center;
+}
+
+.level-card-body {
+  padding: 0.75rem 0.85rem;
+}
+
+.level-card-body ul {
+  list-style: none;
+  padding: 0;
+}
+
+.level-card-body ul li {
+  font-size: 0.75rem;
+  color: var(--text);
+  padding: 0.2rem 0;
+  border-bottom: 1px solid #F0F0F0;
+}
+
+.level-card-body ul li:last-child { border-bottom: none; }
+
+/* ---- GANTT ROADMAP ---- */
+.gantt-wrap {
+  overflow-x: auto;
+  margin-bottom: 1rem;
+}
+
+.gantt {
+  min-width: 700px;
+  display: grid;
+  grid-template-columns: 220px repeat(24, 1fr);
+  gap: 0;
+  font-size: 0.72rem;
+}
+
+.gantt-header-cell {
+  background: var(--primary);
+  color: var(--white);
+  font-weight: 600;
+  padding: 0.4rem 0.25rem;
+  text-align: center;
+  border-right: 1px solid rgba(255,255,255,0.2);
+  font-size: 0.65rem;
+}
+
+.gantt-header-cell.label-col {
+  text-align: left;
+  padding-left: 0.5rem;
+  font-size: 0.7rem;
+}
+
+.gantt-header-phase {
+  background: var(--primary-text);
+  color: var(--white);
+  font-weight: 700;
+  padding: 0.35rem 0.5rem;
+  text-align: center;
+  font-size: 0.65rem;
+  border-right: 1px solid rgba(255,255,255,0.2);
+}
+
+.gantt-phase-label {
+  grid-column: 1;
+  background: var(--bg);
+  font-weight: 600;
+  color: var(--primary-text);
+  padding: 0.4rem 0.5rem;
+  border-bottom: 1px solid #E0E0E0;
+  font-size: 0.7rem;
+}
+
+.gantt-row-label {
+  background: var(--white);
+  padding: 0.4rem 0.5rem 0.4rem 0.75rem;
+  border-bottom: 1px solid #ECECEC;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.72rem;
+}
+
+.gantt-cell {
+  background: var(--white);
+  border-bottom: 1px solid #ECECEC;
+  border-right: 1px solid #F0F0F0;
+  min-height: 28px;
+  position: relative;
+}
+
+.gantt-cell.quarter-start {
+  border-right: 1px solid #C0C0C0;
+}
+
+.gantt-bar {
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  border-radius: 3px;
+  left: 0;
+  right: 0;
+}
+
+.gantt-bar.p1 { background: rgba(14,122,118,0.75); }
+.gantt-bar.p2 { background: rgba(255,215,0,0.7); }
+.gantt-bar.p3 { background: rgba(90,90,90,0.5); }
+.gantt-bar.deadline { background: rgba(255,0,153,0.7); }
+
+.gantt-legend {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+}
+
+.gantt-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.7rem;
+  color: var(--secondary);
+}
+
+.gantt-legend-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+/* ---- LIEFERANTEN AMPEL ---- */
+.lieferant-table td .dot-ok::before { content: "●"; color: var(--risk-ok); margin-right: 0.35rem; }
+.lieferant-table td .dot-warn::before { content: "●"; color: var(--risk-medium); margin-right: 0.35rem; }
+.lieferant-table td .dot-alert::before { content: "●"; color: var(--risk-high); margin-right: 0.35rem; }
+
+/* ---- DATEN STATUS BADGES ---- */
+.status-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+}
+
+.status-item {
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 0.75rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+}
+
+.status-indicator {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-top: 0.3rem;
+  flex-shrink: 0;
+}
+
+.status-indicator.ok { background: var(--risk-ok); }
+.status-indicator.warn { background: var(--risk-medium); }
+.status-indicator.alert { background: var(--risk-high); }
+
+.status-item-text .status-item-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.3;
+}
+
+.status-item-text .status-item-val {
+  font-size: 0.68rem;
+  color: var(--secondary);
+  margin-top: 0.1rem;
+}
+
+/* ---- DISCLAIMER ---- */
+.disclaimer {
+  background: rgba(255,0,153,0.05);
+  border-left: 3px solid var(--signal);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 0.85rem 1rem;
+  font-size: 0.72rem;
+  color: var(--secondary);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+/* ---- DATENLÜCKE ---- */
+.data-gap {
+  display: inline-block;
+  background: rgba(255,215,0,0.15);
+  color: #7a5f00;
+  border: 1px dashed rgba(255,215,0,0.6);
+  border-radius: 4px;
+  padding: 0.1rem 0.4rem;
+  font-size: 0.68rem;
+  font-weight: 600;
+}
+
+/* ---- INFO-NOTE ---- */
+.info-note {
+  background: rgba(32,218,211,0.07);
+  border-left: 3px solid var(--primary);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 0.65rem 0.85rem;
+  font-size: 0.75rem;
+  color: var(--text);
+  margin-bottom: 0.75rem;
+  line-height: 1.6;
+}
+
+.warn-note {
+  background: rgba(255,0,153,0.06);
+  border-left: 3px solid var(--signal);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 0.65rem 0.85rem;
+  font-size: 0.75rem;
+  color: var(--text);
+  margin-bottom: 0.75rem;
+  line-height: 1.6;
+}
+
+/* ---- FALLSTUDIEN BOX ---- */
+.case-box {
+  background: rgba(14,122,118,0.05);
+  border: 1px solid rgba(14,122,118,0.2);
+  border-radius: var(--radius);
+  padding: 1rem 1.1rem;
+  margin-bottom: 0.75rem;
+}
+
+.case-box-title {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--primary-text);
+  margin-bottom: 0.4rem;
+}
+
+.case-box p {
+  font-size: 0.75rem;
+  color: var(--text);
+  line-height: 1.6;
+}
+
+/* ---- ZITAT-BOX ---- */
+.zitat-box {
+  background: rgba(32,218,211,0.06);
+  border-left: 4px solid var(--primary);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 0.85rem 1.1rem;
+  margin: 0.75rem 0;
+}
+
+.zitat-box blockquote {
+  font-size: 0.85rem;
+  font-style: italic;
+  color: var(--text);
+  line-height: 1.65;
+  margin-bottom: 0.4rem;
+}
+
+.zitat-box cite {
+  font-size: 0.68rem;
+  color: var(--secondary);
+  font-style: normal;
+}
+
+/* ---- WELLPAPPEN WARN ---- */
+.market-warn {
+  background: rgba(255,215,0,0.08);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 0.75rem 0.9rem;
+  font-size: 0.75rem;
+  color: var(--text);
+  margin-bottom: 0.75rem;
+  line-height: 1.6;
+}
+
+/* ---- RACI TABELLE ---- */
+.raci-table th { white-space: nowrap; }
+.raci-table td { text-align: center; font-size: 0.75rem; font-weight: 600; }
+.raci-table td:first-child { text-align: left; font-size: 0.75rem; font-weight: 400; }
+.raci-cell-ra { color: var(--primary-text); font-weight: 700; }
+
+/* ---- FOOTER ---- */
+.footer {
+  background: var(--white);
+  border-top: 1px solid #ECECEC;
+  text-align: center;
+  padding: 0.75rem 2rem;
+  font-size: 0.7rem;
+  color: var(--secondary);
+}
+
+/* ---- RESPONSIVE ---- */
+@media (max-width: 900px) {
+  .sidebar {
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+  }
+  .sidebar.open { transform: translateX(0); }
+  .hamburger { display: flex; }
+  .overlay.visible { display: block; }
+  .main { margin-left: 0; }
+  .top-bar { padding-left: 3.5rem; }
+  .kpi-row { grid-template-columns: repeat(2, 1fr); padding: 0.75rem 1rem; top: 53px; }
+  .content-area { padding: 1rem; }
+  .three-col { grid-template-columns: 1fr; }
+  .ampel-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 600px) {
+  .kpi-row { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+</head>
+<body>
+
+<!-- Hamburger (mobile) -->
+<button class="hamburger" id="hamburgerBtn" aria-label="Navigation öffnen">
+  <span></span><span></span><span></span>
+</button>
+<div class="overlay" id="overlay"></div>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="brand">COLTENE Group</div>
+      <div class="project-title">Verpackungsfahrplan 2026</div>
+      <div class="project-sub">R003 — 10.04.2026</div>
+    </div>
+    <nav class="sidebar-nav">
+      <button class="nav-item active" onclick="showSection('summary')">
+        <span class="nav-number">—</span>Management Summary
+      </button>
+      <div class="nav-group-label">Ausgangslage</div>
+      <button class="nav-item" onclick="showSection('s1')">
+        <span class="nav-number">01</span>Zielbild &amp; Erfolgskriterien
+      </button>
+      <button class="nav-item" onclick="showSection('s2')">
+        <span class="nav-number">02</span>Baseline &amp; Risiken
+      </button>
+      <div class="nav-group-label">Technisch</div>
+      <button class="nav-item" onclick="showSection('s3')">
+        <span class="nav-number">03</span>Produktschutz
+      </button>
+      <button class="nav-item" onclick="showSection('s4')">
+        <span class="nav-number">04</span>Prozess &amp; Arbeitsplatz
+      </button>
+      <div class="nav-group-label">Wirtschaftlich</div>
+      <button class="nav-item" onclick="showSection('s5')">
+        <span class="nav-number">05</span>Kosten &amp; Wirtschaftlichkeit
+      </button>
+      <button class="nav-item" onclick="showSection('s8')">
+        <span class="nav-number">08</span>Beschaffung &amp; Partnerauswahl
+      </button>
+      <div class="nav-group-label">Regulatorisch</div>
+      <button class="nav-item" onclick="showSection('s6')">
+        <span class="nav-number">06</span>Nachhaltigkeit &amp; Compliance
+      </button>
+      <button class="nav-item" onclick="showSection('s7')">
+        <span class="nav-number">07</span>Daten, Standards &amp; Dokumentation
+      </button>
+      <div class="nav-group-label">Umsetzung</div>
+      <button class="nav-item" onclick="showSection('s9')">
+        <span class="nav-number">09</span>Roadmap &amp; Governance
+      </button>
+    </nav>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <!-- TOP BAR -->
+    <div class="top-bar">
+      <div class="top-bar-title" id="topBarTitle">Management Summary</div>
+      <div class="top-bar-meta">
+        <span class="kbd-hint">← →</span> zum Navigieren &nbsp;|&nbsp; R003 — 10.04.2026
+      </div>
+    </div>
+
+    <!-- KPI CARDS -->
+    <div class="kpi-row">
+      <div class="kpi-card">
+        <div class="kpi-value" style="color: var(--signal);">2/5</div>
+        <div class="kpi-label">PPWR-Readiness</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-value" style="color: var(--primary-text);">5,6 Mio.</div>
+        <div class="kpi-label">Packmittelbudget p.a. (CHF)</div>
+        <div class="kpi-source">Quelle: Gabriele (handschriftlich, Workshop) — nicht systemisch verifiziert</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-value" style="color: #b8860b;">7–22 %</div>
+        <div class="kpi-label">Einsparpotenzial (Band, typisch 12–15 %)</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-value" style="color: var(--primary-text);">13</div>
+        <div class="kpi-label">Handlungsfelder</div>
+      </div>
+    </div>
+
+    <!-- CONTENT AREA -->
+    <div class="content-area">
+
+      <!-- ================= MANAGEMENT SUMMARY ================= -->
+      <section class="section active" id="section-summary">
+        <div class="section-header">
+          <div class="step-badge">Überblick</div>
+          <h1>Management Summary</h1>
+          <p class="section-sub">COLTENE Verpackungsfahrplan — R003, 10.04.2026</p>
+        </div>
+
+        <div class="warn-note">
+          <strong>PPWR-Kernbefund:</strong> Die Primärverpackung (Sterilbarriere) ist von den <span class="tooltip" data-tip="Packaging and Packaging Waste Regulation (EU) 2025/40">PPWR</span>-Recyclingfähigkeits- und Rezyklat-Anforderungen ausgenommen (Art. 6 Abs. 11, Art. 7 Abs. 4 PPWR). Sekundär- und Tertiärverpackungen sind hingegen vollumfänglich betroffen — hier besteht der größte Handlungsbedarf.
+        </div>
+
+        <div class="card">
+          <div class="card-title">Ausgangslage</div>
+          <p style="font-size:0.83rem; line-height:1.7;">
+            COLTENE entwickelt ein global verteiltes Verpackungssystem für Medizinprodukte weiter — mit dem Ziel, es gleichzeitig <span class="tooltip" data-tip="Packaging and Packaging Waste Regulation (EU) 2025/40">PPWR</span>-konform, <span class="tooltip" data-tip="Medical Device Regulation (EU) 2017/745">MDR</span>-compliant und wirtschaftlich effizienter aufzustellen. Mit einem Jahresbudget von rund 5,6 Mio. CHF für Packmittel und einer dezentralen Beschaffungsstruktur besteht erhebliches Konsolidierungspotenzial — das sich mit einer erstmaligen gruppenweiten Ausschreibung erschließen lässt.
+          </p>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Kritische Handlungsfelder</div>
+          <div class="table-wrap" style="box-shadow:none; margin:0;">
+            <table>
+              <tbody>
+                <tr><td style="width:2rem;"><span class="badge badge-alert">Kritisch</span></td><td>PPWR-Readiness aktuell Stufe 2/5 — Deadline August 2026</td></tr>
+                <tr><td><span class="badge badge-alert">Kritisch</span></td><td>Keine zentrale Verpackungsdatenbank</td></tr>
+                <tr><td><span class="badge badge-warn">Mittel</span></td><td>Lieferanten-Compliance (<span class="tooltip" data-tip="Certificate of Conformity">CoC</span>s, Zertifikate) nur teilweise vorhanden</td></tr>
+                <tr><td><span class="badge badge-warn">Mittel</span></td><td>Klärungsbedarf <span class="tooltip" data-tip="ISO 11607-1:2019 (Anforderungen an Sterilbarrieresysteme) und ISO 11607-2:2019 (Validierung Form-, Siegel- und Montageprozesse), beide ergänzt durch Amendment 1:2023">ISO 11607-1/-2:2019+Amd 1:2023</span> / <span class="tooltip" data-tip="Europäische Normenreihe für Materialien und Systeme für die Sterilverpackung">EN 868</span></td></tr>
+                <tr><td><span class="badge badge-alert">Kritisch</span></td><td><span class="tooltip" data-tip="Packaging and Packaging Waste Regulation (EU) 2025/40">PPWR</span>-Verantwortlichkeit nicht definiert</td></tr>
+                <tr><td><span class="badge badge-warn">Mittel</span></td><td><span class="tooltip" data-tip="Per- und Polyfluoralkylsubstanzen — bedenkliche Stoffe, allgemeine Minimierungspflicht Art. 5 Abs. 1 PPWR">PFAS</span>-Screening erforderlich (Art. 5 Abs. 1 PPWR — allgemeine Minimierungspflicht)</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Coltène-Zitat -->
+        <div class="card">
+          <div class="card-title">Anknüpfung an Coltène-Eigenstrategie</div>
+          <div class="zitat-box">
+            <blockquote>"Packaging is standardized and reduced to an absolute minimum where possible."</blockquote>
+            <cite>— Coltène Sustainability Report 2022 (coltene.group)</cite>
+          </div>
+          <div class="info-note" style="margin-top:0.75rem;">
+            <strong>Workshop-Bestätigung (09.04.2026):</strong> Coltène hat im gemeinsamen Workshop bestätigt, dass diese Formulierung bisher als <em>Mission Statement</em> geführt wurde — die systematische operative Umsetzung steht noch aus. Daraus ergibt sich die Kernableitung dieses Fahrplans: Die aktuell <strong>dezentrale Struktur</strong> (Standort-, Abteilungs- und Werk-spezifische Packmittelwahl, Beschaffung und Dokumentation) bietet den <strong>größten Hebel für eine gruppenweite Standardisierung</strong>. Standardisierung ist bei Coltène kein neues strategisches Ziel — sie ist die konsequente Umsetzung einer seit 2022 formulierten Eigen-Positionierung.
+          </div>
+          <p style="font-size:0.8rem; line-height:1.65; color:var(--text);">
+            Der vorliegende Verpackungsfahrplan operationalisiert diese Eigen-Zielsetzung und macht sie auditierbar, datengestützt und PPWR-konform. Die hier vorgeschlagenen Maßnahmen sind keine externen Forderungen, sondern die konsequente Umsetzung einer bereits formulierten Strategie.
+          </p>
+        </div>
+
+        <!-- Rechtliche Verantwortung -->
+        <div class="info-note">
+          <strong>Rechtliche Verantwortung:</strong> Gemäß Kommissions-Leitfaden zur PPWR (C(2026) 2151 final vom 30.03.2026) ist COLTENE als Markeninhaber der <em>manufacturer</em> im Sinne der Verordnung und trägt damit die <strong>alleinige rechtliche Verantwortung</strong> für die Konformität der Verpackung mit Art. 5–12 PPWR und für die EU-Konformitätserklärung nach Art. 39 — unabhängig davon, wer die Verpackung physisch herstellt. Parallel entstehen je nach Absatzland <em>producer</em>-Pflichten (EPR-Registrierung, Gebühren) pro Mitgliedstaat; siehe Kapitel 6.
+        </div>
+
+        <!-- Zulassungsrisiko -->
+        <div class="warn-note">
+          <strong>Zulassungsrisiko bei Primärverpackung:</strong> PPWR-getriebene Änderungen an der Sterilbarriere (Tyvek, Folien, Trays) sind keine reinen Beschaffungsentscheidungen, sondern zulassungsrelevante Änderungen nach MDR Anhang II und MDCG 2020-3 Rev.1 Chart E. Jede Änderung muss einen Change-Control-Prozess mit Regulatory-Affairs-Freigabe durchlaufen; <em>significant changes</em> am Sterilbarrieresystem erfordern Re-Validierung nach ISO 11607-1:2019+Amd 1:2023 und ggf. Notifikation an die Benannte Stelle und die FDA.
+        </div>
+
+        <!-- Strategische Positionierung -->
+        <div class="card">
+          <div class="card-title">Strategische Positionierung: Vorreiter statt Nachzügler</div>
+          <p style="font-size:0.8rem; line-height:1.65; color:var(--text); margin-bottom:0.75rem;">
+            Die systematische Recherche zu öffentlich kommunizierten PPWR-Umsetzungsprojekten vergleichbarer MedTech-Mittelständler zeigt einen bemerkenswerten Befund: <strong>Es gibt sie kaum.</strong> Große OEMs wie Abbott, Medtronic, Dentsply Sirona berichten vereinzelt über Packaging-Redesign-Projekte, aber keinen systematischen PPWR-Umsetzungsfahrplan. Für Coltène ergibt sich daraus eine strategische Chance:
+          </p>
+          <div class="table-wrap" style="box-shadow:none; margin:0;">
+            <table>
+              <tbody>
+                <tr>
+                  <td style="width:35%;"><strong>Differenzierungspotenzial</strong></td>
+                  <td>Frühzeitige, dokumentierte PPWR-Transformation positioniert Coltène als sichtbaren Vorreiter im MedTech-Mittelstand — kommunizierbarer Vorteil gegenüber Händlern, Distributoren und Endkunden.</td>
+                </tr>
+                <tr>
+                  <td><strong>Frühzeitig = Kostenersparnis</strong></td>
+                  <td>Wer früh startet, hat längere Umstellungsfenster, geringere Crash-Kosten und mehr Verhandlungsspielraum bei Lieferanten.</td>
+                </tr>
+                <tr>
+                  <td><strong>Positionierungs-Investition</strong></td>
+                  <td>Der VPF ist keine Aufholjagd, sondern eine Positionierungs-Investition — mit dem Nebeneffekt messbarer Kostenoptimierung.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div>
+          <button class="btn-primary" onclick="showSection('s9')">Zu den Handlungsfeldern</button>
+          <button class="btn-primary" onclick="showSection('s6')">PPWR-Analyse</button>
+          <button class="btn-primary" onclick="showSection('s5')">Wirtschaftlichkeit</button>
+        </div>
+      </section>
+
+      <!-- ================= SCHRITT 1 ================= -->
+      <section class="section" id="section-s1">
+        <div class="section-header">
+          <div class="step-badge">Schritt 1</div>
+          <h1>Zielbild &amp; Erfolgskriterien</h1>
+          <p class="section-sub">Haupttreiber, Scope, Stakeholder und KPI-Empfehlungen</p>
+        </div>
+
+        <div class="card">
+          <div class="card-title">1.1 Haupttreiber</div>
+          <div class="table-wrap" style="box-shadow:none; margin:0;">
+            <table>
+              <thead><tr><th>Treiber</th><th>Priorität</th><th>Begründung</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><strong>Compliance</strong></td>
+                  <td><span class="badge badge-alert">Primär</span></td>
+                  <td><span class="tooltip" data-tip="Packaging and Packaging Waste Regulation (EU) 2025/40">PPWR</span>-Deadline August 2026, <span class="tooltip" data-tip="Medical Device Regulation (EU) 2017/745">MDR</span>-Konformität, <span class="tooltip" data-tip="US Food and Drug Administration — US-amerikanische Zulassungsbehörde">FDA</span>-Anforderungen, <span class="tooltip" data-tip="ISO 11607-1:2019 + ISO 11607-2:2019 + Amendment 1:2023 — Sterilbarrieresysteme und Validierung">ISO 11607-1/-2:2019+Amd 1:2023</span>/<span class="tooltip" data-tip="Europäische Normenreihe für Sterilverpackung">EN 868</span>-Klärungsbedarf</td>
+                </tr>
+                <tr>
+                  <td><strong>Beschaffungsoptimierung</strong></td>
+                  <td><span class="badge badge-alert">Primär</span></td>
+                  <td>~5,6 Mio. CHF Jahresbudget, gruppenweite Bündelung bisher noch nicht genutzt</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p style="font-size:0.7rem; color:var(--secondary); margin-top:0.5rem;">Quelle: Workshop-Workbooks Philipp + Gabriele, übereinstimmend; Budget-Wert handschriftlich Gabriele (Workshop)</p>
+        </div>
+
+        <div class="expand-all-row">
+          <button class="btn-sm" onclick="expandAll('section-s1')">Alle aufklappen</button>
+          <button class="btn-sm" onclick="collapseAll('section-s1')">Alle zuklappen</button>
+        </div>
+
+        <div class="collapsible">
+          <button class="collapsible-header" onclick="toggleCollapsible(this)">
+            1.2 Scope <span class="collapsible-icon">+</span>
+          </button>
+          <div class="collapsible-body"><div class="collapsible-body-inner">
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Dimension</th><th>Ausprägung</th><th>Quelle</th></tr></thead>
+                <tbody>
+                  <tr><td><strong>Verpackungsebenen</strong></td><td>Alle drei: Primär (Sterilbarriere), Sekundär (Produktverpackung), Tertiär (Transport)</td><td>Baseline</td></tr>
+                  <tr><td><strong>Supply Chain Stränge</strong></td><td><span class="tooltip" data-tip="Kurier-/Express-/Paketdienste: UPS, FedEx, DHL, Chronopost">KEP</span>, Stückgut/Spedition (Noerpel, Camion, Hecht), Übersee/Container (DSV), Luftfracht, Gefahrgut, temperaturkontrolliert</td><td>Supply Chain Übersicht</td></tr>
+                  <tr><td><strong>Standorte</strong></td><td>Swiss AG, Germany KG, INC (Nordamerika), MM + externe Lager</td><td>Supply Chain Übersicht</td></tr>
+                  <tr><td><strong>Versanddestinationen</strong></td><td>National (CH+DE), EU, Drittland/Weltweit (Kanada, LAM, RoW)</td><td>Baseline</td></tr>
+                  <tr><td><strong>Gruppengröße</strong></td><td>&gt;100 Mitarbeiter am Packprozess beteiligt</td><td>Baseline</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div></div>
+        </div>
+
+        <div class="collapsible">
+          <button class="collapsible-header" onclick="toggleCollapsible(this)">
+            1.3 Stakeholder (intern) <span class="collapsible-icon">+</span>
+          </button>
+          <div class="collapsible-body"><div class="collapsible-body-inner">
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Abteilung</th><th>Verantwortung</th><th>Quelle</th></tr></thead>
+                <tbody>
+                  <tr><td><strong>R&amp;D</strong></td><td>Primärverpackung</td><td>Gabrieles Workbook</td></tr>
+                  <tr><td><strong>Produktmanagement</strong></td><td>Sekundärverpackung</td><td>Gabrieles Workbook</td></tr>
+                  <tr><td><strong>Process Engineering</strong></td><td>Transportvalidierungen</td><td>Gabrieles Workbook</td></tr>
+                  <tr><td><strong>Regulatory Affairs (RA)</strong></td><td>Significant Change Überprüfung, Labeldossier, PPWR-Konformitätserklärung</td><td>Gabrieles Workbook</td></tr>
+                  <tr><td><strong>Einkauf</strong></td><td>Beschaffung, Lieferantenauswahl</td><td><em>Abgeleitet aus Beschaffungskontext</em></td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="info-note" style="margin-top:0.75rem; margin-bottom:0;"><strong>Wichtig:</strong> Keine einzige der 13 Handlungsempfehlungen kann allein vom Einkauf umgesetzt werden. Der VPF ist ein Cross-Functional-Projekt — die Governance-Empfehlung (Kap. 9.5) muss das explizit widerspiegeln.</div>
+          </div></div>
+        </div>
+
+        <div class="collapsible">
+          <button class="collapsible-header" onclick="toggleCollapsible(this)">
+            1.4 Erfolgskriterien &amp; KPI-Empfehlungen <span class="collapsible-icon">+</span>
+          </button>
+          <div class="collapsible-body"><div class="collapsible-body-inner">
+            <div class="info-note">Diese KPIs sind Empfehlungen basierend auf den Workshop-Erkenntnissen. Die konkreten Zielwerte sollten mit den Stakeholdern abgestimmt werden.</div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Kategorie</th><th>KPI</th><th>Zielwert</th><th>Messmethode</th></tr></thead>
+                <tbody>
+                  <tr><td>Compliance</td><td><span class="tooltip" data-tip="Packaging and Packaging Waste Regulation (EU) 2025/40">PPWR</span>-Readiness-Stufe</td><td>4/5 bis August 2026</td><td>Self-Assessment</td></tr>
+                  <tr><td>Compliance</td><td><span class="tooltip" data-tip="ISO 11607-1:2019 + ISO 11607-2:2019 + Amendment 1:2023">ISO 11607-1/-2</span>/<span class="tooltip" data-tip="Europäische Normenreihe für Sterilverpackung">EN 868</span> Klärungsstand</td><td>100% dokumentiert</td><td>Dokumentenprüfung</td></tr>
+                  <tr><td>Compliance</td><td><span class="tooltip" data-tip="Certificate of Conformity">CoC</span>-Abdeckung Lieferanten</td><td>&gt;95%</td><td>Lieferanten-Audit</td></tr>
+                  <tr><td>Kosten</td><td>Packmittelkosten nach Konsolidierung</td><td>Band 7–22 %, typisch 12–15 %</td><td>Jahresvergleich nach Baseline</td></tr>
+                  <tr><td>Kosten</td><td>Anzahl Packmittel-Varianten</td><td>Reduktion um 30–40%</td><td>Artikelstammzählung</td></tr>
+                  <tr><td>Daten</td><td>Zentrale Datenbank implementiert</td><td>Ja/Nein</td><td>Projektmeilenstein</td></tr>
+                  <tr><td>Prozess</td><td>Gruppenweite Ausschreibung</td><td>Mindestens 1x durchgeführt</td><td>Projektmeilenstein</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div></div>
+        </div>
+      </section>
+
+      <!-- ================= SCHRITT 2 ================= -->
+      <section class="section" id="section-s2">
+        <div class="section-header">
+          <div class="step-badge">Schritt 2</div>
+          <h1>Baseline &amp; Risiken</h1>
+          <p class="section-sub">Datenqualität, Compliance-Lücken und Lieferantenrisiken</p>
+        </div>
+
+        <div class="card">
+          <div class="card-title">2.2 Compliance-Ampel</div>
+          <div class="ampel-grid">
+            <div class="ampel-item">
+              <div class="ampel-dot" style="background:#2ECC71;"></div>
+              <div class="ampel-label">
+                <span class="tooltip" data-tip="Medical Device Regulation (EU) 2017/745">MDR</span>
+                <span class="info-icon" data-tip="Coltène ist MDR-zertifiziert (Verordnung (EU) 2017/745). Die Verpackung ist Teil der technischen Dokumentation nach Anhang II und damit Gegenstand der Konformitätsbewertung durch die Benannte Stelle. Verpackungsänderungen am Sterilbarrieresystem (Material, Siegelung, Geometrie) können significant changes sein und müssen vor Markteinführung nach MDCG 2020-3 Rev.1 Chart E bewertet werden.">i</span>
+              </div>
+              <div class="ampel-status">Erfüllt</div>
+            </div>
+            <div class="ampel-item">
+              <div class="ampel-dot" style="background:#2ECC71;"></div>
+              <div class="ampel-label">
+                <span class="tooltip" data-tip="US Food and Drug Administration — US-amerikanische Zulassungsbehörde">FDA</span>
+                <span class="info-icon" data-tip="Coltène ist für den US-Markt zugelassen. Verpackungsänderungen werden von der FDA nach ihren Guidances für Device Changes bewertet. Änderungen am Sterilbarrieresystem oder an der Shelf-Life-Begründung können eine neue 510(k)-Einreichung erforderlich machen — bis zur FDA-Clearance darf das geänderte Produkt nicht verkauft werden.">i</span>
+              </div>
+              <div class="ampel-status">Erfüllt</div>
+            </div>
+            <div class="ampel-item">
+              <div class="ampel-dot" style="background:#FFD700;"></div>
+              <div class="ampel-label">
+                <span class="tooltip" data-tip="ISO 11607-1:2019 (Anforderungen an Sterilbarrieresysteme) und ISO 11607-2:2019 (Validierung Form-, Siegel- und Montageprozesse), beide ergänzt durch Amendment 1:2023 Application of risk management">ISO 11607-1/-2</span>
+                <span class="info-icon" data-tip="ISO 11607-1:2019 definiert Anforderungen an Sterilbarrieresysteme, ISO 11607-2:2019 die Validierung von Form-, Siegel- und Montageprozessen. Beide wurden 2023 um das Amendment Application of risk management erweitert. Ohne dokumentierte Konformität zu diesen Normen ist die technische Nachweisführung der MedTech-Sonderbehandlung unter PPWR gefährdet — auch wenn die Ausnahme formal über die MDR greift.">i</span>
+              </div>
+              <div class="ampel-status">Diskrepanz klären</div>
+            </div>
+            <div class="ampel-item">
+              <div class="ampel-dot" style="background:#FFD700;"></div>
+              <div class="ampel-label">
+                <span class="tooltip" data-tip="Europäische Normenreihe für Materialien und Systeme für die Sterilverpackung">EN 868</span>
+                <span class="info-icon" data-tip="Die EN-868-Normenreihe regelt Materialien und Systeme für Sterilverpackung. Sie wird als Prüfgrundlage für Siegelnahtfestigkeit und Materialeigenschaften verwendet und fließt in die Validierung nach ISO 11607-2 ein. Im Workshop zeigte sich eine Diskrepanz zwischen den beiden internen Ansprechpartnern — diese muss priorisiert aufgelöst werden.">i</span>
+              </div>
+              <div class="ampel-status">Diskrepanz klären</div>
+            </div>
+            <div class="ampel-item">
+              <div class="ampel-dot" style="background:#FFD700;"></div>
+              <div class="ampel-label">
+                <span class="tooltip" data-tip="Design History File — Dokumentation des Verpackungsdesign-Prozesses (FDA 21 CFR 820.30)">Design History File</span>
+                <span class="info-icon" data-tip="Das Design History File dokumentiert alle Designentscheidungen für ein Medizinprodukt, einschließlich Verpackung, und ist nach FDA 21 CFR 820.30 verpflichtend für den US-Markt. Im Workshop sagte eine Ansprechperson ja, die andere nein — das deutet auf eine Dokumentations- oder Zugriffslücke. Klärung ist die Voraussetzung für jedes Verpackungs-Redesign.">i</span>
+              </div>
+              <div class="ampel-status">Diskrepanz klären</div>
+            </div>
+            <div class="ampel-item">
+              <div class="ampel-dot" style="background:#FF0099;"></div>
+              <div class="ampel-label">
+                <span class="tooltip" data-tip="Packaging and Packaging Waste Regulation (EU) 2025/40">PPWR</span>
+                <span class="info-icon" data-tip="Coltène schätzt die eigene PPWR-Readiness auf Stufe 2 von 5 ein. Die PPWR (EU) 2025/40 gilt ab 12.08.2026. Primärverpackungen für MedTech sind von den Recyclingfähigkeits-Anforderungen (Art. 6) und Rezyklat-Quoten (Art. 7) ausgenommen; Sekundär- und Tertiärverpackungen sind vollumfänglich betroffen, dort liegt der größte Handlungsbedarf.">i</span>
+              </div>
+              <div class="ampel-status">Stufe 2/5 — Kritisch</div>
+            </div>
+            <!-- Kachel: Change Control Verpackung — R003: von Rot auf Gelb -->
+            <div class="ampel-item">
+              <div class="ampel-dot" style="background:#FFD700;"></div>
+              <div class="ampel-label">
+                Change Control (Verpackung)
+                <span class="info-icon" data-tip="Change-Control-Prozess vorhanden (MDR-getrieben), aktueller Scope deckt jedoch nur Medizinproduktverpackungen ab. Im Workshop 09.04.2026 von Silvia und Philipp bestätigt: Scope-Erweiterung auf Tertiär- und Logistikverpackungen wurde zugesagt — 'wir werden auch in Zukunft alle Tertiärverpackungen über unseren Changeprozess dokumentieren'. PPWR-Impact-Assessment (Art. 5–12) muss als Prüfdimension in den bestehenden Prozess integriert werden.">i</span>
+              </div>
+              <div class="ampel-status">Prozess vorhanden — Scope-Erweiterung zugesagt</div>
+            </div>
+          </div>
+          <p style="font-size:0.65rem; color:var(--secondary); margin-top:0.5rem;">Info-Icons anklicken/hovern für Erläuterung</p>
+        </div>
+
+        <div class="expand-all-row">
+          <button class="btn-sm" onclick="expandAll('section-s2')">Alle aufklappen</button>
+          <button class="btn-sm" onclick="collapseAll('section-s2')">Alle zuklappen</button>
+        </div>
+
+        <div class="collapsible">
+          <button class="collapsible-header" onclick="toggleCollapsible(this)">
+            2.1 Datenqualität <span class="collapsible-icon">+</span>
+          </button>
+          <div class="collapsible-body"><div class="collapsible-body-inner">
+            <div class="warn-note"><strong>Bewertung:</strong> Die Datenbasis ist derzeit auf mehrere Excel-Dateien und die technische Dokumentation verteilt. Eine zentrale Verpackungsdatenbank ist noch nicht vorhanden — ein typisches Bild bei dezentral gewachsenen Strukturen. Hier liegt eine der größten Hebelmöglichkeiten für Compliance-Nachweise und Ausschreibungseffizienz.</div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Datenpunkt</th><th>Status</th><th>Quelle</th></tr></thead>
+                <tbody>
+                  <tr><td>Zentrale Verpackungsdatenbank</td><td><span class="badge badge-alert">Nicht vorhanden</span></td><td>Philipp + Gabriele übereinstimmend</td></tr>
+                  <tr><td>Datenquellen</td><td>Excel-basiert (Overview_Packaging_V3.xlsx, YVER_ALL ENTITIES)</td><td>Baseline</td></tr>
+                  <tr><td>Verpackungsvorgaben/-spezifikationen</td><td><span class="badge badge-ok">Vorhanden</span> — innerhalb Techn. Dokumentation</td><td>Philipp</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div></div>
+        </div>
+
+        <div class="collapsible">
+          <button class="collapsible-header" onclick="toggleCollapsible(this)">
+            2.2 Compliance-Lücken im Detail <span class="collapsible-icon">+</span>
+          </button>
+          <div class="collapsible-body"><div class="collapsible-body-inner">
+            <div class="warn-note"><strong>Handlungsbedarf:</strong> Die unterschiedlichen Einschätzungen der beiden Ansprechpartner bei <span class="tooltip" data-tip="ISO 11607-1:2019 + ISO 11607-2:2019 + Amendment 1:2023">ISO 11607</span>, <span class="tooltip" data-tip="Europäische Normenreihe für Sterilverpackung">EN 868</span> und <span class="tooltip" data-tip="Design History File — FDA 21 CFR 820.30">Design History File</span> sollten priorisiert intern abgeglichen werden. Diese Normen bilden die Grundlage für alle weiteren Validierungs-Entscheidungen.</div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Anforderung</th><th>Status</th><th>Risikobewertung</th><th>Quelle</th></tr></thead>
+                <tbody>
+                  <tr><td>PPWR-Readiness</td><td><span class="badge badge-alert">Stufe 2/5</span></td><td><span class="badge badge-alert">Hoch — Deadline August 2026</span></td><td>Philipp + Gabriele übereinstimmend</td></tr>
+                  <tr><td>MDR-Zertifizierung</td><td><span class="badge badge-ok">Erfüllt</span></td><td>Niedrig</td><td>Beide Workbooks</td></tr>
+                  <tr><td>FDA-Zulassung</td><td><span class="badge badge-ok">Erfüllt</span></td><td>Niedrig</td><td>Beide Workbooks</td></tr>
+                  <tr><td>ISO 11607-1/-2:2019+Amd 1:2023</td><td><span class="badge badge-warn">Diskrepanz</span></td><td><span class="badge badge-warn">Mittel — Diskrepanz klären</span></td><td>Philipp: Erfüllt / Gabriele: Klärungsbedarf</td></tr>
+                  <tr><td>EN 868-Serie</td><td><span class="badge badge-warn">Diskrepanz</span></td><td><span class="badge badge-warn">Mittel — Diskrepanz klären</span></td><td>Philipp: Erfüllt / Gabriele: Klärungsbedarf</td></tr>
+                  <tr><td>Design History File</td><td><span class="badge badge-warn">Diskrepanz</span></td><td><span class="badge badge-warn">Mittel — Diskrepanz klären</span></td><td>Philipp: Ja / Gabriele: Nein</td></tr>
+                  <tr><td>Change-Control-Prozess Verpackung</td><td><span class="badge badge-warn">Vorhanden, Scope begrenzt</span></td><td><span class="badge badge-warn">Mittel — Scope-Erweiterung im Workshop 09.04.2026 zugesagt</span></td><td>Silvia + Philipp Workshop 09.04.2026</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div></div>
+        </div>
+
+        <div class="collapsible">
+          <button class="collapsible-header" onclick="toggleCollapsible(this)">
+            2.3 Lieferantenrisiken <span class="collapsible-icon">+</span>
+          </button>
+          <div class="collapsible-body"><div class="collapsible-body-inner">
+            <div class="info-note"><strong>Bewertung:</strong> Die Lieferantenstruktur ist grundsätzlich solide (mehrere Lieferanten, White/Black-List), aber die Compliance-Dokumentation ist lückenhaft. Für MDR- und PPWR-Konformität sind vollständige <span class="tooltip" data-tip="Certificate of Conformity">CoC</span>s und Materialzertifikate erforderlich.</div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Datenpunkt</th><th>Status</th><th>Risikobewertung</th><th>Quelle</th></tr></thead>
+                <tbody>
+                  <tr><td>Mehrere qualifizierte Lieferanten</td><td><span class="badge badge-ok">Ja</span></td><td>Niedrig</td><td>Gabriele</td></tr>
+                  <tr><td>Black/White-List</td><td><span class="badge badge-ok">Vorhanden</span></td><td>Niedrig</td><td>Gabriele</td></tr>
+                  <tr><td>Approved Suppliers qualifiziert</td><td><span class="badge badge-ok">Ja</span></td><td>Niedrig</td><td>Gabriele</td></tr>
+                  <tr><td>Regelmäßige Audits</td><td><span class="badge badge-warn">Nicht angekreuzt</span></td><td><span class="badge badge-warn">Mittel</span></td><td>Gabriele</td></tr>
+                  <tr><td><span class="tooltip" data-tip="Certificate of Conformity">CoC</span>s vorhanden</td><td><span class="badge badge-warn">Teilweise</span></td><td><span class="badge badge-warn">Mittel</span></td><td>Gabriele</td></tr>
+                  <tr><td>Materialzertifikate/Biokompatibilität</td><td><span class="badge badge-ok">Vollständig</span></td><td>Niedrig</td><td>Silvia + Philipp Workshop 09.04.2026 — Bestandteil der technischen Dokumentation aller Primärverpackungen</td></tr>
+                  <tr><td>Change-Notification-Agreements</td><td><span class="badge badge-warn">Teilweise</span></td><td><span class="badge badge-warn">Mittel</span></td><td>Gabriele</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div></div>
+        </div>
+      </section>
+
+      <!-- ================= SCHRITT 3 ================= -->
+      <section class="section" id="section-s3">
+        <div class="section-header">
+          <div class="step-badge">Schritt 3</div>
+          <h1>Produktschutz</h1>
+          <p class="section-sub">Verpackungsebenen, Materialien, Prüfmethoden und Transportszenarien</p>
+        </div>
+
+        <div class="card">
+          <div class="card-title">3.1 Verpackungsebenen</div>
+          <div class="three-col">
+            <div class="level-card">
+              <div class="level-card-head">Primär (Sterilbarriere)</div>
+              <div class="level-card-body">
+                <ul>
+                  <li><span class="tooltip" data-tip="DuPont-Markenname für synthetisches Vliesstoff-Material, häufig in Sterilverpackungen">Tyvek</span></li>
+                  <li>Sterilisationsfolie</li>
+                  <li>Klarsichtbeutel</li>
+                  <li>Thermoform-Trays / Blister</li>
+                  <li>Aluminiumbeschichtung (Gutta Flow)</li>
+                </ul>
+                <p style="font-size:0.65rem; color:var(--secondary); margin-top:0.5rem;">Funktion: Sterilbarriere, produktberührend</p>
+              </div>
+            </div>
+            <div class="level-card">
+              <div class="level-card-head">Sekundär (Umkarton)</div>
+              <div class="level-card-body">
+                <ul>
+                  <li>Karton</li>
+                  <li>Wellpappe</li>
+                  <li>Thermoform-Trays (Sekundär)</li>
+                  <li>Schäume (EPS, PE-Schaum, PU)</li>
+                </ul>
+                <p style="font-size:0.65rem; color:var(--secondary); margin-top:0.5rem;">Funktion: Produktverpackung/Umkarton</p>
+              </div>
+            </div>
+            <div class="level-card">
+              <div class="level-card-head">Tertiär (Transport)</div>
+              <div class="level-card-body">
+                <ul>
+                  <li>Wellpappe</li>
+                  <li>Wabenplatten</li>
+                  <li>Stretchfolie</li>
+                  <li>Schrumpffolie</li>
+                </ul>
+                <p style="font-size:0.65rem; color:var(--secondary); margin-top:0.5rem;">Funktion: Transportverpackung/Palette</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="expand-all-row">
+          <button class="btn-sm" onclick="expandAll('section-s3')">Alle aufklappen</button>
+          <button class="btn-sm" onclick="collapseAll('section-s3')">Alle zuklappen</button>
+        </div>
+
+        <div class="collapsible">
+          <button class="collapsible-header" onclick="toggleCollapsible(this)">
+            3.3 Schutzanforderungen <span class="collapsible-icon">+</span>
+          </button>
+          <div class="collapsible-body"><div class="collapsible-body-inner">
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Anforderung</th><th>Relevanz</th><th>Quelle</th></tr></thead>
+                <tbody>
+                  <tr><td>Kipp-/Lagesensibilität</td><td><span class="badge badge-ok">Ja</span></td><td>Baseline</td></tr>
+                  <tr><td>Feuchtigkeitsschutz</td><td><span class="badge badge-ok">Ja</span></td><td>Baseline</td></tr>
+                  <tr><td>Lichtschutz</td><td><span class="badge badge-ok">Ja</span></td><td>Philipps Notiz</td></tr>
+                  <tr><td>Druckempfindlichkeit</td><td><span class="badge badge-ok">Ja</span></td><td>Gabrieles Workbook</td></tr>
+                  <tr><td>Sterilität</td><td><span class="badge badge-ok">Ja — Sterilbarriere-System</span></td><td>Baseline</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div></div>
+        </div>
+
+        <div class="collapsible">
+          <button class="collapsible-header" onclick="toggleCollapsible(this)">
+            3.4 Sterilverpackung (MedTech-spezifisch) <span class="collapsible-icon">+</span>
+          </button>
+          <div class="collapsible-body"><div class="collapsible-body-inner">
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Datenpunkt</th><th>Status</th><th>Quelle</th></tr></thead>
+                <tbody>
+                  <tr><td>Sterilbarriere-System</td><td><span class="badge badge-ok">Vorhanden</span></td><td>Baseline</td></tr>
+                  <tr><td>Validierte Siegelnaht-Parameter</td><td><span class="badge badge-ok">Definiert</span></td><td>Baseline</td></tr>
+                  <tr><td>Alterungsvalidierung (Accelerated Aging)</td><td><span class="badge badge-ok">Durchgeführt</span></td><td>Baseline</td></tr>
+                  <tr><td>Risikoklassen-Einteilung</td><td>I, IIa, IIb, III</td><td>Baseline</td></tr>
+                  <tr><td>Reinraum-Verpackung</td><td>ISO 8 Klasse D</td><td>Philipp</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div></div>
+        </div>
+
+        <div class="collapsible">
+          <button class="collapsible-header" onclick="toggleCollapsible(this)">
+            3.5 Prüfmethoden <span class="collapsible-icon">+</span>
+          </button>
+          <div class="collapsible-body"><div class="collapsible-body-inner">
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Prüfmethode</th><th>Status</th><th>Normreferenz</th></tr></thead>
+                <tbody>
+                  <tr><td>Falltest</td><td><span class="badge badge-ok">Aktuell/geplant</span></td><td>ASTM D4169 / ISTA</td></tr>
+                  <tr><td>Vibrationstests</td><td><span class="badge badge-ok">Aktuell/geplant</span></td><td>ASTM D4169 / ISTA</td></tr>
+                  <tr><td>Siegelnahtfestigkeitsprüfung</td><td><span class="badge badge-ok">Aktuell/geplant</span></td><td>EN 868</td></tr>
+                  <tr><td>Burst-Test / Dichtheitstest (inkl. Bubble Test)</td><td><span class="badge badge-ok">Aktuell/geplant</span></td><td>ASTM F1140, ASTM F2095</td></tr>
+                  <tr><td>Klimatests / Alterungstests</td><td><span class="badge badge-ok">Aktuell/geplant</span></td><td>ASTM F1980</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div></div>
+        </div>
+
+        <div class="collapsible">
+          <button class="collapsible-header" onclick="toggleCollapsible(this)">
+            3.6 Transportszenarien <span class="collapsible-icon">+</span>
+          </button>
+          <div class="collapsible-body"><div class="collapsible-body-inner">
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Szenario</th><th>Details</th><th>Quelle</th></tr></thead>
+                <tbody>
+                  <tr><td><span class="tooltip" data-tip="Kurier-/Express-/Paketdienste">KEP</span></td><td>UPS, FedEx, Chronopost, DHL</td><td>Supply Chain Übersicht</td></tr>
+                  <tr><td>Stückgut/Spedition</td><td>Noerpel, Camion, Hecht</td><td>Supply Chain Übersicht</td></tr>
+                  <tr><td>Übersee/Container</td><td>DSV</td><td>Supply Chain Übersicht</td></tr>
+                  <tr><td>Luftfracht</td><td>Kuehne+Nagel, C.H. Robinson (INC)</td><td>Supply Chain Übersicht</td></tr>
+                  <tr><td>Gefahrgut</td><td>Relevant</td><td>Supply Chain Übersicht</td></tr>
+                  <tr><td>Temperaturkontrolliert</td><td>Relevant</td><td>Supply Chain Übersicht</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div></div>
+        </div>
+
+        <div class="collapsible">
+          <button class="collapsible-header" onclick="toggleCollapsible(this)">
+            3.7 Schadensanalyse <span class="collapsible-icon">+</span>
+          </button>
+          <div class="collapsible-body"><div class="collapsible-body-inner">
+            <div class="info-note"><strong>Update nach Workshop 09.04.2026:</strong> Coltène hat den SAP-Export "Transportschäden Kpl 2025" nachgereicht. Die Datenlücke aus R002 ist damit weitgehend geschlossen — bis auf die Schadensursachen, die im SAP-Reklamationsprozess nicht kodiert sind.</div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Datenpunkt</th><th>Wert 2025</th><th>Quelle</th></tr></thead>
+                <tbody>
+                  <tr><td>Anzahl Schadensfälle</td><td><strong>96</strong> (unique Verkaufsbelege, AuGru Y40)</td><td>SAP-Export 2025</td></tr>
+                  <tr><td>Schadensumme (netto)</td><td><strong>15.664,77 EUR</strong></td><td>SAP-Export 2025</td></tr>
+                  <tr><td>Durchschnittsschaden/Fall</td><td>163 EUR</td><td>Abgeleitet aus SAP-Export</td></tr>
+                  <tr><td>Anteil am Packmittelbudget</td><td><strong>~0,28 %</strong> (15,66 k EUR / ~5,6 Mio. CHF)</td><td>Abgeleitet</td></tr>
+                  <tr><td>Top-2 Versandländer</td><td>DE (29 Fälle / 3,0 k EUR), GB (13 Fälle / 3,9 k EUR) = <strong>44 % der Fälle</strong></td><td>SAP-Export 2025</td></tr>
+                  <tr><td>Schadensursachen (Bruch/Feuchte/Beule)</td><td><span class="data-gap">Nicht in SAP kodiert — einzige verbleibende Datenlücke</span></td><td>—</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="info-note" style="margin-top:0.75rem;">
+              <strong>Einordnung:</strong> 0,28 % Schadenquote liegt am <strong>unteren Ende des Branchenkorridors</strong> (Industrietransport Medizin/Technik typisch 0,3–0,8 %). Das Schadensbild ist <strong>unauffällig</strong>. Der Durchschnittsschaden von 163 EUR/Fall und die breite Streuung über 40+ Kunden lassen <em>kein</em> systematisches Produktschutz-Problem erkennen, das einen eigenständigen Arbeitspakete-Scope rechtfertigen würde.
+            </div>
+            <div class="info-note" style="margin-top:0.75rem;">
+              <strong>Empfehlung:</strong> <strong>Kein eigenständiges Produktschutz-Optimierungsprojekt</strong> im Verpackungsfahrplan. Stattdessen einziger konkreter Folgeschritt (Coltène-intern, kein PKA-Deliverable): Einführung einer <strong>Schadensursachen-Spalte im SAP-Reklamationsprozess</strong> (Bruch / Durchfeuchtung / Beule / Etikett / Sonstiges). Ohne diese Kodierung bleibt jede tiefergehende Ursachenanalyse Stichprobenarbeit.
+            </div>
+            <div class="warn-note" style="margin-top:0.75rem;">
+              <strong>Flankenthema — potenzieller 30-Minuten-Fix:</strong> Die beiden Top-Summen-Kunden <strong>DD Products and Services Ltd. (GB)</strong> mit 8 Fällen / 2.343 EUR und <strong>American Dental Trading B.V.</strong> mit 1 Fall / 1.666 EUR verursachen zusammen rund <strong>26 % der Gesamtschadensumme</strong>. Wenn dahinter <em>ein</em> wiederkehrendes Packmuster oder <em>ein</em> Versandweg steckt, wäre die Korrektur ein kurzer operativer Eingriff — kein Projekt. Vorschlag: Philipp zieht aus SAP die 8 DD-Products-Belege und prüft, ob es einen gemeinsamen Artikel/Karton gibt. Datenbasis reicht nicht für eine generalisierte Empfehlung, aber für ein gezieltes Telefonat mit dem Kunden.
+            </div>
+          </div></div>
+        </div>
+      </section>
+
+      <!-- ================= SCHRITT 4 ================= -->
+      <section class="section" id="section-s4">
+        <div class="section-header">
+          <div class="step-badge">Schritt 4</div>
+          <h1>Prozess &amp; Arbeitsplatz</h1>
+          <p class="section-sub">Organisation, Reinraum, Kennzeichnung, Verantwortlichkeiten, Automatisierung</p>
+        </div>
+
+        <div class="card">
+          <div class="card-title">4.1 Organisation</div>
+          <div class="warn-note"><strong>Bewertung:</strong> Bei &gt;100 Mitarbeitern am Packprozess und variablen Schichtmodellen bestätigen beide Ansprechpartner Kapazitätsengpässe zu Stoßzeiten. Automatisierungspotenziale sind ein sinnvoller nächster Prüfschritt.</div>
+          <div class="table-wrap" style="box-shadow:none; margin:0;">
+            <table>
+              <thead><tr><th>Datenpunkt</th><th>Philipp</th><th>Gabriele</th><th>Bewertung</th></tr></thead>
+              <tbody>
+                <tr><td>Verpackungsprozess</td><td>Manuell + Teilautomatisiert</td><td>Manuell + Teilautomatisiert</td><td><span class="badge badge-ok">Übereinstimmend</span></td></tr>
+                <tr><td>Systeme</td><td>Pick &amp; Pack / Fulfillment</td><td>Pick &amp; Pack / Fulfillment</td><td><span class="badge badge-ok">Übereinstimmend</span></td></tr>
+                <tr><td>Schichtmodell</td><td>—</td><td>1-Schicht, 2-Schicht, Variabel</td><td>—</td></tr>
+                <tr><td>Personalengpässe</td><td>Zu Stoßzeiten</td><td>Ja</td><td><span class="badge badge-warn">Beide bestätigen</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="info-note" style="margin-top:0.75rem;">
+            <strong>Begriffsklarstellung (Workshop 09.04.2026):</strong> In R002 war das Logistikmodell an mehreren Stellen als "Packaging on Demand" bezeichnet. Philipp hat im Workshop klargestellt, <em>"dass der ganze Logistik-Hub funktioniert wie ein Fulfiller"</em> — gemeint ist <strong>Pick-and-Pack-Fulfillment</strong> im Logistikzentrum Langenau, also auftragsbezogenes Kommissionieren und Verpacken aus fertig bevorrateten Packmitteln. Es handelt sich <em>nicht</em> um On-Demand-Kartonherstellung (Right-Sized-Box-Maschinen o. ä.) am Packplatz. Die Formulierung "Packaging on Demand" wird in R003 durchgängig zu "Pick &amp; Pack / Fulfillment" korrigiert.
+          </div>
+        </div>
+
+        <div class="expand-all-row">
+          <button class="btn-sm" onclick="expandAll('section-s4')">Alle aufklappen</button>
+          <button class="btn-sm" onclick="collapseAll('section-s4')">Alle zuklappen</button>
+        </div>
+
+        <div class="collapsible">
+          <button class="collapsible-header" onclick="toggleCollapsible(this)">
+            4.2 Reinraum (MedTech-spezifisch) <span class="collapsible-icon">+</span>
+          </button>
+          <div class="collapsible-body"><div class="collapsible-body-inner">
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Datenpunkt</th><th>Status</th><th>Quelle</th></tr></thead>
+                <tbody>
+                  <tr><td>Verpackung im Reinraum</td><td><span class="badge badge-ok">Ja</span></td><td>Beide Workbooks</td></tr>
+                  <tr><td>Reinraumklasse</td><td>ISO 8 Klasse D</td><td>Philipp</td></tr>
+                  <tr><td>Validierter Siegelprozess (<span class="tooltip" data-tip="Installation Qualification / Operational Qualification / Performance Qualification — Validierungsstufen">IQ/OQ/PQ</span>)</td><td><span class="badge badge-warn">Diskrepanz</span> — Philipp: Ja / Gabriele: Nicht angekreuzt</td><td>Workbooks</td></tr>
+                  <tr><td>Traceability / Chargenrückverfolgung</td><td><span class="badge badge-ok">Ja</span></td><td>Beide Workbooks</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div></div>
+        </div>
+
+        <div class="collapsible">
+          <button class="collapsible-header" onclick="toggleCollapsible(this)">
+            4.3 Kennzeichnung <span class="collapsible-icon">+</span>
+          </button>
+          <div class="collapsible-body"><div class="collapsible-body-inner">
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Kennzeichnungselement</th><th>Status</th><th>Quelle</th></tr></thead>
+                <tbody>
+                  <tr><td><span class="tooltip" data-tip="Unique Device Identification — eindeutige Produktkennung nach MDR">UDI</span>-Code</td><td><span class="badge badge-ok">Auf Verpackung</span></td><td>Baseline</td></tr>
+                  <tr><td>Lot-/Chargen-Nummer</td><td><span class="badge badge-ok">Auf jeder Verpackungsebene</span></td><td>Baseline</td></tr>
+                  <tr><td>Sterilisations-Indikator / Ablaufdatum</td><td><span class="badge badge-ok">Vorhanden</span></td><td>Baseline</td></tr>
+                  <tr><td>Mehrsprachige Kennzeichnung</td><td><span class="badge badge-ok">Ja (Zielländer)</span></td><td>Baseline</td></tr>
+                  <tr><td>Produktlabeling als Teil der Verpackung</td><td><span class="badge badge-ok">Ja</span></td><td>Baseline</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div></div>
+        </div>
+
+        <div class="collapsible">
+          <button class="collapsible-header" onclick="toggleCollapsible(this)">
+            4.4 Verantwortlichkeiten <span class="collapsible-icon">+</span>
+          </button>
+          <div class="collapsible-body"><div class="collapsible-body-inner">
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Bereich</th><th>Verantwortliche Abteilung</th><th>Quelle</th></tr></thead>
+                <tbody>
+                  <tr><td>Primärverpackung</td><td>R&amp;D</td><td>Gabriele</td></tr>
+                  <tr><td>Sekundärverpackung</td><td>Produktmanagement</td><td>Gabriele</td></tr>
+                  <tr><td>Transportvalidierungen</td><td>Process Engineering</td><td>Gabriele</td></tr>
+                  <tr><td>Significant Change Überprüfung</td><td>RA (Regulatory Affairs)</td><td>Gabriele</td></tr>
+                  <tr><td>Labeldossier</td><td>RA (Regulatory Affairs)</td><td>Gabriele</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div></div>
+        </div>
+
+        <div class="collapsible">
+          <button class="collapsible-header" onclick="toggleCollapsible(this)">
+            4.6 Automatisierungspotenzial <span class="collapsible-icon">+</span>
+          </button>
+          <div class="collapsible-body"><div class="collapsible-body-inner">
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Bereich</th><th>Aktuell</th><th>Automatisierungspotenzial</th></tr></thead>
+                <tbody>
+                  <tr><td>Pick &amp; Pack / Fulfillment (Langenau)</td><td>Manuell/Teilautomatisiert</td><td><span class="badge badge-alert">Hoch</span> — Pick-by-Light, Robotik, Kartonaufrichter, automatische Befüllung</td></tr>
+                  <tr><td>Siegelprozess</td><td>Validiert</td><td><span class="badge badge-ok">Gering</span> — bereits kontrolliert</td></tr>
+                  <tr><td>Etikettierung</td><td>Nicht spezifiziert</td><td><span class="data-gap">Datenlücke — zu evaluieren</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div></div>
+        </div>
+      </section>
+
+      <!-- ================= SCHRITT 5 ================= -->
+      <section class="section" id="section-s5">
+        <div class="section-header">
+          <div class="step-badge">Schritt 5</div>
+          <h1>Kosten &amp; Wirtschaftlichkeit</h1>
+          <p class="section-sub">Budget, Beschaffungsstruktur und Wirtschaftlichkeitspotenzial</p>
+        </div>
+
+        <!-- 5.3 ERNEUERT -->
+        <div class="card">
+          <div class="card-title">5.3 Wirtschaftlichkeitspotenzial — Einordnung <span class="info-icon" data-tip="Bewusst als Band, nicht als Punktwert — die realisierbare Zahl hängt vom Umsetzungstempo, der Validierungs-Last (MedTech) und der Marktentwicklung ab. Basis: BCG MedTech 2025, McKinsey Procurement Transformation 2023, Bain World-Class Procurement, Oxmaint Packaging Study.">i</span></div>
+          <div class="info-note">
+            Die folgende Bandbreite stützt sich auf drei externe Referenzen und Projekterfahrung. <strong>Bewusst als Band, nicht als Punktwert</strong> — die realisierbare Zahl bei Coltène hängt vom Umsetzungstempo, der Validierungs-Last (MedTech) und der Marktentwicklung ab und kann erst nach Baseline-Erstellung (HE-04) belastbar quantifiziert werden.
+          </div>
+          <div class="cost-bars">
+            <div class="cost-bar-row">
+              <div class="cost-bar-label">Konservativ (7 %)</div>
+              <div class="cost-bar-track">
+                <div class="cost-bar-fill" style="width:32%; background: rgba(14,122,118,0.5);">
+                  <span class="cost-bar-pct">ca. 390 k CHF</span>
+                </div>
+              </div>
+            </div>
+            <div class="cost-bar-row">
+              <div class="cost-bar-label">Typisch (12 %)</div>
+              <div class="cost-bar-track">
+                <div class="cost-bar-fill" style="width:55%; background: var(--primary-text);">
+                  <span class="cost-bar-pct">ca. 670 k CHF</span>
+                </div>
+              </div>
+            </div>
+            <div class="cost-bar-row">
+              <div class="cost-bar-label">Typisch-Ober (15 %)</div>
+              <div class="cost-bar-track">
+                <div class="cost-bar-fill" style="width:68%; background: #0E7A76;">
+                  <span class="cost-bar-pct">ca. 840 k CHF</span>
+                </div>
+              </div>
+            </div>
+            <div class="cost-bar-row">
+              <div class="cost-bar-label">Optimistisch (22 %) <span class="info-icon" data-tip="Gilt nur bei vollständig dezentraler Baseline mit paralleler Variantenreduktion. Der MedTech-Validierungsaufwand frisst erfahrungsgemäß die ersten 1–2 Jahreseinsparungen bei Primärverpackungen auf.">i</span></div>
+              <div class="cost-bar-track">
+                <div class="cost-bar-fill" style="width:100%; background: rgba(14,122,118,0.85);">
+                  <span class="cost-bar-pct">ca. 1,23 Mio. CHF</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="cost-sum-row">Basis: ~5,6 Mio. CHF adressiertes Volumen (Quelle: Gabriele, handschriftlich, Workshop — nicht systemisch verifiziert)</div>
+          <div class="warn-note" style="margin-top:0.75rem; margin-bottom:0.5rem;">
+            <strong>Grounding-Einschränkungen:</strong> Das Band ist ein Orientierungsrahmen, kein belastbares Ziel. Im Jahr 1 nach Ausschreibungsbeschluss sind meist nur 30–50 % des Potenzials realisiert (Bestandsauslauf, Einfahren neuer Lieferanten). Keine der Quellen ist 1:1 auf Coltène übertragbar.
+          </div>
+          <p style="font-size:0.68rem; color:var(--secondary);">Quellen: BCG MedTech 2025, McKinsey Procurement Transformation 2023, Bain World-Class Procurement, Oxmaint Packaging Study, Branchenerfahrung aus vergleichbaren Beratungsprojekten</p>
+        </div>
+
+        <div class="expand-all-row">
+          <button class="btn-sm" onclick="expandAll('section-s5')">Alle aufklappen</button>
+          <button class="btn-sm" onclick="collapseAll('section-s5')">Alle zuklappen</button>
+        </div>
+
+        <div class="collapsible">
+          <button class="collapsible-header" onclick="toggleCollapsible(this)">
+            5.1 Kostenübersicht <span class="collapsible-icon">+</span>
+          </button>
+          <div class="collapsible-body"><div class="collapsible-body-inner">
+            <div class="info-note"><strong>Bewertung:</strong> Das Gesamtbudget ist bekannt, aber die Aufschlüsselung nach Verpackungsebenen, Standorten oder Materialgruppen fehlt. Dies erschwert gezielte Optimierung.</div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Datenpunkt</th><th>Wert</th><th>Quelle</th></tr></thead>
+                <tbody>
+                  <tr><td><strong>Jahresbudget Packmittel (gesamt)</strong></td><td><strong>~5,6 Mio. CHF</strong></td><td>Gabriele (handschriftlich, Workshop) — nicht systemisch verifiziert</td></tr>
+                  <tr><td>Aufschlüsselung nach Ebenen</td><td><span class="data-gap">Nicht erfasst</span></td><td>—</td></tr>
+                  <tr><td>Verpackungsanteil an Brutto-Wertschöpfungskosten</td><td><span class="data-gap">Coltène hat keine Auswertung — im Workshop bestätigt</span></td><td>Workshop 09.04.2026</td></tr>
+                  <tr><td>Kostentransparenz Validierung/Qualifizierung</td><td><span class="badge badge-warn">Teilweise</span></td><td>Philipp</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="info-note" style="margin-top:0.75rem;">
+              <strong>Orientierungswerte zum Verpackungskostenanteil an der Brutto-Wertschöpfung (Standort Langenau):</strong>
+              <ul style="margin-top:0.5rem; padding-left:1.2rem;">
+                <li><strong>3–5 %</strong> = gesunder Branchenkorridor (reine Verpackungsmaterialkosten, ohne Transport/Logistik)</li>
+                <li><strong>&gt; 10 %</strong> = kritisch, systematische Kostensenkungs-Hebel meist vorhanden</li>
+              </ul>
+              Coltène hat diese Kennzahl aktuell nicht berechnet. Für Langenau kann sie auf Basis der im Workshop genannten Personalstruktur (<strong>18 Versand-Mitarbeiter + 75–80 Produktions-Mitarbeiter</strong>, Quelle: Philipp, Workshop 09.04.2026) und der lokalen Packmittelkostenbasis ermittelt werden — sobald die Kostenstellen-Lücke aus Kap. 5.1b geschlossen ist.
+            </div>
+            <div class="info-note" style="margin-top:0.5rem;">
+              <strong>Empfohlene Herangehensweise — "von hinten aufräumen":</strong> Tertiärverpackung (Transportkarton) zuerst, dann Sekundärverpackung (Umkarton), erst zum Schluss Primärverpackung (Sterilbarriere). Begründung: Tertiär und Sekundär sind nicht zulassungsrelevant, die Hebel sind dort schnell und PPWR-konform realisierbar. Primärverpackungen unterliegen Change-Control + Re-Validierung nach ISO 11607-1 und kosten typischerweise 1–2 Jahreseinsparungen an Validierungsaufwand bis zum Payback.
+            </div>
+          </div></div>
+        </div>
+
+        <!-- 5.1b NEU -->
+        <div class="collapsible">
+          <button class="collapsible-header" onclick="toggleCollapsible(this)">
+            5.1b Kostenstruktur und Reporting — Ausgangslage <span class="collapsible-icon">+</span>
+          </button>
+          <div class="collapsible-body"><div class="collapsible-body-inner">
+            <p style="font-size:0.8rem; line-height:1.65; margin-bottom:0.75rem;">Die Kostenlücken in Abschnitt 5.4 folgen einem Muster, das bei dezentral gewachsener Verpackungsbeschaffung häufig zu beobachten ist. Drei wiederkehrende Ursachen:</p>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Ursache</th><th>Wirkung bei Coltène</th></tr></thead>
+                <tbody>
+                  <tr><td><strong>Uneinheitliche Kostenstellen-Zuordnung</strong></td><td>An Standort A laufen Verpackungskosten auf "Verbrauchsmaterial", an Standort B auf "Packmittel", an Standort C auf die Produktgruppe direkt. Gruppenweite Auswertung wird dadurch zur Excel-Handarbeit.</td></tr>
+                  <tr><td><strong>Fehlende Kostenarten-Granularität</strong></td><td>Primär-, Sekundär- und Tertiärverpackung landen in einer Sammel-Kostenart. Eine Trennung nach Material (Wellpappe / Folie / Sterilverpackung) existiert buchhalterisch nicht.</td></tr>
+                  <tr><td><strong>Nebenkosten-Verteilung</strong></td><td>Handling, Lager, Entsorgung und Schadenskosten laufen in allgemeinen Gemeinkosten — die Verpackung erscheint in der Kostenrechnung systematisch billiger als sie tatsächlich ist.</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="info-note" style="margin-bottom:0.5rem;">
+              <strong>Konsequenz:</strong> Die ~5,6 Mio. CHF sind der <strong>reine Materialeinkaufswert</strong> — ohne Handling, Lager, Entsorgung, Schadenskosten. Die tatsächlichen Total Cost of Ownership (TCO) liegen qualitativ deutlich darüber.
+            </div>
+            <div class="warn-note" style="margin-bottom:0.5rem;">
+              <strong>Grounding-Hinweis:</strong> Ein konkreter TCO-Faktor (z. B. "1,3–1,6 × Materialpreis") ist in der Literatur nicht einheitlich belegt und wird hier bewusst nicht quantifiziert. Die Richtung (TCO &gt; Einkaufspreis) ist unstrittig, die Höhe bleibt offen.
+            </div>
+            <p style="font-size:0.75rem; color:var(--text);">
+              <strong>Belegbarer Wirkungsrahmen:</strong> BCG dokumentiert im MedTech-Report 2025 einen Kitting-Case mit &gt;50 Mio. USD annual run-rate savings und &gt;20 % Kitting-Conversion-Cost-Reduction — getrieben durch genau die Art Kostentransparenz, die ein gruppenweiter Reporting-Standard erst ermöglicht.
+            </p>
+          </div></div>
+        </div>
+
+        <div class="collapsible">
+          <button class="collapsible-header" onclick="toggleCollapsible(this)">
+            5.2 Beschaffungsstruktur <span class="collapsible-icon">+</span>
+          </button>
+          <div class="collapsible-body"><div class="collapsible-body-inner">
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Datenpunkt</th><th>Status</th><th>Implikation</th></tr></thead>
+                <tbody>
+                  <tr><td>Gruppenweite Ausschreibung</td><td><span class="badge badge-alert">Erstmals geplant</span></td><td><strong>Größter Einzelhebel bei ~5,6 Mio. CHF</strong></td></tr>
+                  <tr><td>Zentrale vs. dezentrale Beschaffung</td><td><em>Abgeleitet: Dezentral</em></td><td>Konsolidierungspotenzial</td></tr>
+                  <tr><td>Bündelungspotenzial</td><td><span class="badge badge-ok">Hoch</span></td><td>Basierend auf Volumen und dezentraler Struktur</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div></div>
+        </div>
+
+        <!-- 5.3b NEU — MedTech-Fallstudien -->
+        <div class="collapsible">
+          <button class="collapsible-header" onclick="toggleCollapsible(this)">
+            5.3b Referenzfälle — MedTech-Packaging-Optimierung <span class="collapsible-icon">+</span>
+          </button>
+          <div class="collapsible-body"><div class="collapsible-body-inner">
+            <div class="info-note">
+              Öffentlich kommunizierte MedTech-Packaging-Projekte als Orientierung. Keine dieser Fälle ist 1:1 auf Coltène übertragbar — die Bandbreite der Effekte zeigt aber: Die Kombination aus PPWR-Compliance, Kostensenkung und Marktkommunikation ist im MedTech-Umfeld möglich.
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Fall</th><th>Ergebnis</th><th>Hebel</th><th>Quelle</th></tr></thead>
+                <tbody>
+                  <tr><td><strong>Abbott BinaxNOW</strong> (Schnelltest)</td><td>27 % Volumen, 58 % Gewicht, 26,7 Mio. Pfund Packaging eingespart p.a., ~9.500 weniger 20-ft-Container</td><td>Konsolidierung Infoblätter, Eliminierung Plastiktray, Resizing Karton+Versandkarton</td><td>Abbott Newsroom, Sustainability Plan 2022</td></tr>
+                  <tr><td><strong>Abbott FreeStyle Libre 3</strong> (CGM)</td><td>&gt;70 % Volumen, 40 % Plastik, 43 % Karton vs. Vorgänger</td><td>Komplett-Redesign Sekundärverpackung</td><td>Abbott Sustainability Plan Status 2022</td></tr>
+                  <tr><td><strong>Medtronic MiniMed Insulin Pump</strong></td><td>66 % Gewichtsreduktion, 100 % recycelbare Outer-Box + Inserts</td><td>Materialumstellung + Redesign</td><td>Medtronic Sustainable Packaging Design Page</td></tr>
+                  <tr><td><strong>Medtronic (gruppenweit)</strong></td><td>Geplant: 2.000 t Papier bis FY 2030 gespart</td><td>Umstellung auf digitale Manuals</td><td>Medtronic Sustainability Reporting</td></tr>
+                  <tr><td><strong>Dentsply Sirona Endo Solution Kit</strong></td><td>100 % recycelter Karton, parallele Größen- und Gewichtsreduktion</td><td>Sustainability Team Roadmap bis 2027</td><td>Dental Tribune Feature</td></tr>
+                  <tr><td><strong>Plexus MedTech PCB-Trays</strong></td><td>~50 % Kostenreduktion, +33 % Boards pro Lieferung</td><td>Umstellung Single-Use-Bags → recycelbarer Plastiktray</td><td>plexus.com/case-study</td></tr>
+                  <tr><td><strong>BCG MedTech Kitting-Case</strong></td><td>&gt;50 Mio. USD annual run-rate, &gt;20 % Conversion Cost Reduction, Payback &lt;4 J.</td><td>Kitting-Optimierung + Manufacturing-Footprint</td><td>BCG MedTech-Report 2025</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="info-note" style="margin-bottom:0.5rem;">
+              <strong>Übertragbarkeit:</strong> Die publizierten Zahlen sind fast ausschließlich Material-, Gewichts- oder Volumenreduktionen. Für Coltène gilt: Der kommunikative Effekt (Sustainability-Reporting, Customer-Perception) liegt oft über dem reinen Material-Euro-Effekt. Der BCG-Band <strong>7–12 % total external spend</strong> ist der belastbarste numerische Vergleichswert für die eigene Spend-Einsparschätzung.
+            </div>
+            <div class="zitat-box">
+              <blockquote>"Packaging is standardized and reduced to an absolute minimum where possible."</blockquote>
+              <cite>— Coltène Sustainability Report 2022 — die hier vorgeschlagenen Maßnahmen sind die operative Umsetzung dieser Eigen-Positionierung.</cite>
+            </div>
+          </div></div>
+        </div>
+
+        <div class="collapsible">
+          <button class="collapsible-header" onclick="toggleCollapsible(this)">
+            5.4 Datenlücken Kosten <span class="collapsible-icon">+</span>
+          </button>
+          <div class="collapsible-body"><div class="collapsible-body-inner">
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Datenpunkt</th><th>Status</th><th>Empfehlung</th></tr></thead>
+                <tbody>
+                  <tr><td>Handling-Kosten pro Auftrag</td><td><span class="data-gap">Nicht erfasst</span></td><td>Zeit- und Kostenstudie</td></tr>
+                  <tr><td>Lagerkosten Packmittel</td><td><span class="data-gap">Nicht erfasst</span></td><td>Aus Controlling erheben</td></tr>
+                  <tr><td>Schadenskosten pro Jahr</td><td><span class="data-gap">Nicht erfasst</span></td><td>Schadensstatistik aufbauen</td></tr>
+                  <tr><td>Anzahl Packmittel-Varianten</td><td><span class="data-gap">Nicht im Workshop</span></td><td>Aus Overview_Packaging_V3 extrahieren</td></tr>
+                  <tr><td>Entsorgungskosten</td><td><span class="data-gap">Nicht erfasst</span></td><td>Aus Controlling erheben</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div></div>
+        </div>
+      </section>
+
+      <!-- ================= SCHRITT 6 ================= -->
+      <section class="section" id="section-s6">
+        <div class="section-header">
+          <div class="step-badge">Schritt 6</div>
+          <h1>Nachhaltigkeit &amp; Compliance</h1>
+          <p class="section-sub">PPWR-Readiness, Gap-Analyse, MedTech-Ausnahmen und Substances of Concern</p>
+        </div>
+
+        <!-- PPWR Gap Matrix -->
+        <div class="card">
+          <div class="card-title">6.2.4 PPWR-Gap-Analyse</div>
+          <div class="ppwr-matrix">
+            <table>
+              <thead>
+                <tr>
+                  <th>PPWR-Anforderung</th>
+                  <th>Primär (Steril)</th>
+                  <th>Sekundär</th>
+                  <th>Tertiär</th>
+                  <th>Handlungsbedarf</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Recyclingfähigkeit (Art. 6)</td>
+                  <td class="cell-ok">Ausgenommen</td>
+                  <td class="cell-alert">Betroffen</td>
+                  <td class="cell-alert">Betroffen</td>
+                  <td class="cell-neutral">Materialprüfung Sekundär/Tertiär</td>
+                </tr>
+                <tr>
+                  <td>Rezyklat-Quote (Art. 7)</td>
+                  <td class="cell-warn">Ausgenommen*</td>
+                  <td class="cell-alert">Betroffen</td>
+                  <td class="cell-alert">Betroffen</td>
+                  <td class="cell-neutral">Rezyklat-Strategie entwickeln</td>
+                </tr>
+                <tr>
+                  <td>Minimierung (Art. 10)</td>
+                  <td class="cell-warn">Betroffen**</td>
+                  <td class="cell-alert">Betroffen</td>
+                  <td class="cell-alert">Betroffen</td>
+                  <td class="cell-neutral">Leerraum-Analyse erforderlich</td>
+                </tr>
+                <tr>
+                  <td>Substances of Concern (Art. 5)</td>
+                  <td class="cell-alert">Betroffen</td>
+                  <td class="cell-alert">Betroffen</td>
+                  <td class="cell-alert">Betroffen</td>
+                  <td class="cell-neutral">Minimierungspflicht Art. 5 Abs. 1 + Schwermetall-Grenzwert Art. 5 Abs. 4</td>
+                </tr>
+                <tr>
+                  <td>Kennzeichnung (Art. 12)</td>
+                  <td class="cell-alert">Betroffen</td>
+                  <td class="cell-alert">Betroffen</td>
+                  <td class="cell-alert">Betroffen</td>
+                  <td class="cell-neutral">Kennzeichnungsstrategie</td>
+                </tr>
+                <tr>
+                  <td>Technische Doku (Anhang VII)</td>
+                  <td class="cell-alert">Betroffen</td>
+                  <td class="cell-alert">Betroffen</td>
+                  <td class="cell-alert">Betroffen</td>
+                  <td class="cell-neutral">Dokumentationsstruktur aufbauen</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p style="font-size:0.68rem; color:var(--secondary); margin-top:0.6rem;">
+            (*) Die Ausnahme in Art. 7(5)(a) PPWR gilt ausschließlich für <em>food-contact plastic packaging</em>; MedTech-Primärverpackungen sind <strong>nicht</strong> erfasst. Die Ausnahme in Art. 7(5)(b) (Plastikanteil &lt; 5% am Gesamtgewicht der Verpackungseinheit) ist eine Bagatellregel. Bis 01.01.2028 prüft die Kommission nach Art. 7(12) PPWR, ob für <em>contact-sensitive plastic packaging</em> zusätzliche Derogationen notwendig sind — diese Bewertung steht aus. Konservative Auslegung bis dahin: Rezyklatquoten gelten. <em>[Quelle: Draft Commission Notice C(2026) 2151 final, Approval 30.03.2026 — formelle Annahme noch ausstehend, Annex Sektion 7, S. 21–22]</em><br>
+            (**) Art. 10 PPWR enthält <strong>keine</strong> Pauschal-Ausnahme für Sterilität oder Produktschutz. Die zwei Ausnahmen in Art. 10(2) betreffen ausschließlich (a) vor 11.02.2025 registrierte Designrechte/Marken und (b) Produkte mit geographischer Herkunftsangabe. Sterilität und Produktschutz fließen über die Funktionalitäts-Performance-Kriterien nach Annex IV Part A Punkt 4 in die Minimierungs-Bewertung ein — sie sind <strong>begründungs- und dokumentationspflichtig</strong>, nicht freigestellt. Stichtag Art. 10(1): <strong>01.01.2030</strong>. Übergangsstandard EN 13428:2004 bis Ende 2029, ein aktualisierter harmonisierter Standard wurde von der Kommission bis 12.02.2027 bei CEN angefragt. <em>[Quelle: Draft Commission Notice C(2026) 2151 final, Annex Sektion 10, S. 25–27]</em>
+          </p>
+        </div>
+
+        <!-- PPWR Timeline -->
+        <div class="card">
+          <div class="card-title">6.2.2 PPWR-Zeitplan — Relevante Fristen für COLTENE</div>
+          <div class="timeline-wrap">
+            <div class="timeline">
+              <div class="timeline-line"></div>
+              <div class="timeline-items">
+                <div class="timeline-item">
+                  <div class="timeline-desc">Inkrafttreten — Übergangsfristen beachten</div>
+                  <div class="timeline-year">2025</div>
+                  <div class="timeline-dot"></div>
+                </div>
+                <div class="timeline-item label-top">
+                  <div class="timeline-desc">Recycling-Design + Minimierung + Rezyklat Stufe 1</div>
+                  <div class="timeline-year">2030</div>
+                  <div class="timeline-dot"></div>
+                </div>
+                <div class="timeline-item">
+                  <div class="timeline-desc">Recycling in großem Maßstab</div>
+                  <div class="timeline-year">2035</div>
+                  <div class="timeline-dot"></div>
+                </div>
+                <div class="timeline-item label-top">
+                  <div class="timeline-desc">Performance Level A/B für Recyclingfähigkeit</div>
+                  <div class="timeline-year">2038</div>
+                  <div class="timeline-dot"></div>
+                </div>
+                <div class="timeline-item">
+                  <div class="timeline-desc">Rezyklat Stufe 2 (erhöhte Quoten)</div>
+                  <div class="timeline-year">2040</div>
+                  <div class="timeline-dot"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="warn-note" style="margin-top:0.5rem; margin-bottom:0;">
+            <strong>PPWR-Deadline COLTENE: 12. August 2026</strong> — Readiness-Ziel: Stufe 4/5
+          </div>
+        </div>
+
+        <div class="expand-all-row">
+          <button class="btn-sm" onclick="expandAll('section-s6')">Alle aufklappen</button>
+          <button class="btn-sm" onclick="collapseAll('section-s6')">Alle zuklappen</button>
+        </div>
+
+        <div class="collapsible">
+          <button class="collapsible-header" onclick="toggleCollapsible(this)">
+            6.2.3 Sonderregelungen MedTech — Art. 6 &amp; Art. 7 Ausnahmen <span class="collapsible-icon">+</span>
+          </button>
+          <div class="collapsible-body"><div class="collapsible-body-inner">
+            <div class="info-note">
+              <strong>Definition "Kontaktempfindliche Verpackung" (Art. 3 Nr. 10 PPWR):</strong> Verpackungen, die dazu bestimmt sind, mit Produkten in Berührung zu kommen, die unter die Verordnung (EU) 2017/745 (MDR) oder (EU) 2017/746 (IVDR) fallen. Die Sterilbarriere-Systeme (Tyvek, sterile Folien, Peelverpackungen) von COLTENE fallen unter diese Definition.
+            </div>
+            <p style="font-size:0.8rem; font-weight:600; color:var(--primary-text); margin-bottom:0.4rem;">Art. 6 Abs. 11 — Recyclingfähigkeit</p>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Verpackungsebene</th><th>Ausnahme Art. 6?</th><th>Begründung</th></tr></thead>
+                <tbody>
+                  <tr><td>Primär (Sterilbarriere)</td><td class="cell-ok">Ja</td><td>Kontaktempfindliche Verpackung unter MDR</td></tr>
+                  <tr><td>Sekundär (Umkarton, Tray)</td><td class="cell-alert">Nein</td><td>Kein direkter Produktkontakt</td></tr>
+                  <tr><td>Tertiär (Transportverpackung)</td><td class="cell-alert">Nein</td><td>Kein Produktkontakt</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p style="font-size:0.8rem; font-weight:600; color:var(--primary-text); margin: 0.75rem 0 0.4rem;">Art. 7 Abs. 4 — Rezyklat-Mindestquoten</p>
+            <div class="warn-note">
+              <strong>Wichtig — Konservative Interpretation:</strong> Die Formulierung in Art. 7 Abs. 4 lit. b) ist enger gefasst als in Art. 6 Abs. 11 lit. b). Die Ausnahme von den Rezyklat-Mindestquoten bezieht sich explizit auf Produkte "ausschließlich für Forschungszwecke" und Prüfprodukte. Reguläre Medizinprodukte (Serienprodukte) sind von dieser Ausnahme möglicherweise nicht erfasst.
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Verpackungsebene</th><th>Ausnahme Art. 7 Rezyklat?</th><th>Begründung</th></tr></thead>
+                <tbody>
+                  <tr><td>Primär (Sterilbarriere)</td><td class="cell-warn">Ja — aber nur teilweise</td><td>Grundsätzlich ausgenommen; jedoch Einschränkung auf Forschungs-/Prüfprodukte beachten</td></tr>
+                  <tr><td>Sekundär (Kunststoff-Trays)</td><td class="cell-alert">Nein</td><td>Kein direkter Produktkontakt</td></tr>
+                  <tr><td>Tertiär (PE-Schaum, Folie)</td><td class="cell-alert">Nein</td><td>Kein Produktkontakt</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="info-note" style="margin-top:0.75rem; margin-bottom:0;">
+              <strong>Handlungsempfehlung:</strong> Die genaue Reichweite der Ausnahme in Art. 7 Abs. 4 lit. b) sollte durch spezialisierte Rechtsberatung geklärt werden. Bis zur Klärung empfiehlt sich eine konservative Planung, die davon ausgeht, dass die Rezyklat-Anforderungen für Sekundär- und Tertiärverpackungen vollumfänglich gelten.
+            </div>
+          </div></div>
+        </div>
+
+        <!-- ERNEUERT: 6.2.5 Substances of Concern -->
+        <div class="collapsible">
+          <button class="collapsible-header" onclick="toggleCollapsible(this)">
+            6.2.5 Substances of Concern / <span class="tooltip" data-tip="Per- und Polyfluoralkylsubstanzen — allgemeine Minimierungspflicht Art. 5 Abs. 1 PPWR; quantitative PFAS-Grenzwerte nach Art. 5 Abs. 5 gelten NUR für Lebensmittelkontaktverpackungen">PFAS</span> <span class="collapsible-icon">+</span>
+          </button>
+          <div class="collapsible-body"><div class="collapsible-body-inner">
+            <p style="font-size:0.82rem; font-weight:700; color:var(--primary-text); margin:0.75rem 0 0.4rem;">Generelle Minimierungspflicht (Art. 5 Abs. 1 PPWR)</p>
+            <div class="info-note">
+              Art. 5 Abs. 1 verpflichtet alle Verpackungshersteller, besorgniserregende Stoffe in Verpackungsmaterial und -bestandteilen auf ein Mindestmaß zu beschränken. Wörtlich (EUR-Lex):
+              <br><br>
+              <em>"Verpackungen, die in Verkehr gebracht werden, sind so herzustellen, dass das Vorhandensein und die Konzentration besorgniserregender Stoffe in Verpackungsmaterial oder Verpackungsbestandteilen auf ein Mindestmaß beschränkt werden, auch im Hinblick auf ihr Vorhandensein in Emissionen und allen bei der Abfallbewirtschaftung anfallenden Materialien wie Sekundärrohstoffen, Asche oder sonstigen Materialien, die für die Beseitigung bestimmt sind, und negative Auswirkungen auf die Umwelt aufgrund von Mikroplastik."</em>
+              <br><br>
+              <strong>Wichtig:</strong> Abs. 1 enthält keine quantitativen Grenzwerte und keine Aufzählung einzelner Stoffe — er verpflichtet zu einer Minimierungs-Systematik. Gilt für alle Verpackungen, inklusive MedTech-Sterilbarrieresysteme.
+            </div>
+
+            <p style="font-size:0.82rem; font-weight:700; color:var(--primary-text); margin:0.75rem 0 0.4rem;">Schwermetall-Grenzwert (Art. 5 Abs. 4 PPWR)</p>
+            <div class="info-note">
+              Wörtlich (EUR-Lex): <em>"[…] darf die Summe der Konzentrationen von Blei, Cadmium, Quecksilber und sechswertigem Chrom aus Stoffen in Verpackungen oder Verpackungsbestandteilen 100 mg/kg nicht überschreiten."</em>
+              <br><br>
+              <strong>Bewertung:</strong> Der Grenzwert gilt für alle Verpackungen unabhängig von ihrer Funktion. In der Regel durch etablierte Lieferantenqualitätssicherung abgedeckt; gezielte Abfrage der Lieferanten-CoCs wird dennoch empfohlen.
+            </div>
+
+            <p style="font-size:0.82rem; font-weight:700; color:var(--primary-text); margin:0.75rem 0 0.4rem;">PFAS-Grenzwerte (Art. 5 Abs. 5 PPWR) — ausschließlich Lebensmittelkontaktverpackungen</p>
+            <div class="warn-note">
+              Ab dem <strong>12. August 2026</strong> gelten für Verpackungen, die mit Lebensmitteln in Berührung kommen, quantitative PFAS-Grenzwerte (25 ppb je PFAS, 250 ppb Summe, 50 ppm inkl. polymere PFAS).<br><br>
+              <strong>Wichtige Einschränkung für COLTENE:</strong> Art. 5 Abs. 5 gilt <strong>ausschließlich für Lebensmittelkontaktverpackungen</strong>. Für Dental-Medizinprodukte gelten diese quantitativen Grenzwerte <strong>nicht direkt</strong>. Die allgemeine Minimierungspflicht nach Art. 5 Abs. 1 bleibt jedoch anwendbar, und REACH-Beschränkungen für PFAS können parallel greifen.
+            </div>
+
+            <p style="font-size:0.82rem; font-weight:700; color:var(--primary-text); margin:0.75rem 0 0.4rem;">Handlungsempfehlungen für COLTENE</p>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Maßnahme</th><th>Rechtsgrundlage</th><th>Priorität</th></tr></thead>
+                <tbody>
+                  <tr><td>Lieferanten-CoCs auf Schwermetall-Summe ≤ 100 mg/kg anfordern</td><td>Art. 5 Abs. 4 PPWR</td><td><span class="badge badge-alert">Hoch</span></td></tr>
+                  <tr><td>PFAS-Screening der Beschichtungen, Druckfarben, Klebstoffe, Tyvek-Zusatzbehandlungen — <strong>wegen Art. 5 Abs. 1 Minimierungspflicht und REACH</strong>, nicht wegen Art. 5 Abs. 5</td><td>Art. 5 Abs. 1 PPWR + REACH Anhang XVII</td><td><span class="badge badge-alert">Hoch</span></td></tr>
+                  <tr><td>Technische Dokumentation nach Anhang VII PPWR aufbauen</td><td>Art. 5 Abs. 6 PPWR</td><td><span class="badge badge-warn">Mittel</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p style="font-size:0.68rem; color:var(--secondary);">Quellen: Art. 5 Abs. 1, 4, 5, 6 PPWR (EU) 2025/40, deutsche Fassung, wörtlich aus EUR-Lex ELI https://eur-lex.europa.eu/eli/reg/2025/40/oj</p>
+          </div></div>
+        </div>
+
+        <!-- NEU: 6.2.6 Rollenverantwortung -->
+        <div class="collapsible">
+          <button class="collapsible-header" onclick="toggleCollapsible(this)">
+            6.2.6 Rollenverantwortung in der PPWR-Lieferkette <span class="collapsible-icon">+</span>
+          </button>
+          <div class="collapsible-body"><div class="collapsible-body-inner">
+            <div class="info-note">
+              Der Leitfaden der EU-Kommission (Draft Commission Notice C(2026) 2151 final vom 30.03.2026, Kapitel 2–4, S. 7–17) differenziert drei Rollen mit unterschiedlichen Pflichten. Die Unterscheidung ist für COLTENE als Markeninhaber mit Schweizer Produktion, deutscher Tochtergesellschaft und EU-Distributoren (Concordia, Plandent) unmittelbar handlungsrelevant.
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Dimension</th><th>Manufacturer (Hersteller)</th><th>Producer (Inverkehrbringer)</th><th>Importer (Importeur)</th></tr></thead>
+                <tbody>
+                  <tr><td><strong>Gesetzestext</strong></td><td>Art. 3(1) Nr. 13 PPWR</td><td>Art. 3(1) Nr. 15 PPWR</td><td>Art. 3(1) Nr. 17 PPWR</td></tr>
+                  <tr><td><strong>Kernpflichten</strong></td><td>Konformität mit Art. 5–12; EU-Konformitätserklärung (Art. 39)</td><td>EPR-Gebühren + Abfallwirtschaft im Mitgliedstaat</td><td>Haftung für Drittlandsware; Rechtspersönlichkeit erforderlich</td></tr>
+                  <tr><td><strong>Coltène-Rolle</strong></td><td><strong>Ja — alleinige Verantwortung</strong> für alle Coltène-Markenverpackungen, auch wenn Lieferant herstellt</td><td>Je Mitgliedstaat separat prüfen (Germany KG für DE)</td><td>Coltène Germany KG — Rechtsform-Prüfung erforderlich</td></tr>
+                  <tr><td><strong>Private-Label / Handelsprodukte</strong></td><td colspan="3"><strong>Coltène ist Markeninhaber → Manufacturer nach Art. 3(1) Nr. 13 PPWR</strong>, auch bei Lohnfertigung durch Dritte und auch dann, wenn der MDR-Legalhersteller ein anderes Unternehmen ist. Die PPWR-Pflichten (Konformität mit Art. 5–12, EU-Konformitätserklärung nach Art. 39) liegen bei Coltène. Der Leitfaden C(2026) 2151 final stellt in Annex Sektion 2, S. 7, wörtlich klar: <em>"If the packaging or packaged product carries a certain name or trademark, it can be assumed that the owner of that name or trademark is the 'manufacturer' pursuant to Article 3(1), point (13)(a), as it will have the decisive power in the contractual relation with its suppliers and will therefore be able to determine also the packaging characteristics."</em> Im Workshop 09.04.2026 explizit von Silvia adressiert: <em>"wir müssen uns über die Handelsprodukte schon auch Gedanken machen"</em> — Coltène muss für sein Handelsprodukt-Portfolio (Private-Label-Ware, die unter Coltène-Marken verkauft wird) die gleichen PPWR-Pflichten erfüllen wie für eigenproduzierte Ware.</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="warn-note">
+              <strong>Schlüsselaussage Leitfaden S. 8–9 (wörtlich auf Englisch):</strong> "There is always only one manufacturer in a supply chain within the meaning of the PPWR." und "the manufacturer is the sole economic operator bearing legal responsibility for the packaging's compliance with the sustainability and labelling requirements, regardless of who might have actually drafted the EU declaration of conformity."
+            </div>
+            <div class="warn-note">
+              <strong>Hinweis Logistikverträge:</strong> Wenn externe Lager (Noerpel, Camion, Hecht, DSV) COLTENE-Ware umpacken, kann sich die Frage stellen, ob sie als <em>producers</em> der Transportverpackung im Sinne der PPWR gelten. Empfohlen wird, dies in Logistikverträgen vorsorglich zu klären und die Zuordnung der EPR-Gebühren eindeutig zu regeln.
+              <br><br>
+              <strong>Offene Frage:</strong> Rechtsform Coltène Germany KG — Tochtergesellschaft mit eigener Rechtspersönlichkeit oder Zweigniederlassung? Nur eigene Rechtspersonen können Importeur nach Art. 3(1) Nr. 17 PPWR sein.
+            </div>
+          </div></div>
+        </div>
+
+        <!-- NEU: Warum Verpackung Teil der Zulassung ist -->
+        <div class="collapsible">
+          <button class="collapsible-header" onclick="toggleCollapsible(this)">
+            6.3 Warum ein Verpackungswechsel die MDR- und FDA-Zulassung gefährden kann <span class="collapsible-icon">+</span>
+          </button>
+          <div class="collapsible-body"><div class="collapsible-body-inner">
+            <p style="font-size:0.8rem; font-weight:600; color:var(--primary-text); margin-bottom:0.75rem;">Drei Mechanismen machen die Primärverpackung zulassungsrelevant:</p>
+
+            <div class="case-box">
+              <div class="case-box-title">1. Sterilbarriere als Leistungsmerkmal</div>
+              <p>Das Sterile Barrier System (SBS) — Tyvek-Peelbeutel, Thermoform-Trays mit Deckelfolie, Klarsichtbeutel — erhält die Sterilität bis zum Point-of-Use. Bei Materialänderungen ist die Sterilität nicht mehr durch die ursprüngliche Validierung abgedeckt. Maßgebliche Normen: <strong>ISO 11607-1:2019</strong> (Anforderungen an Sterilbarrieresysteme) und <strong>ISO 11607-2:2019</strong> (Validierungsanforderungen), beide ergänzt durch <strong>Amendment 1:2023 "Application of risk management"</strong>.</p>
+            </div>
+
+            <div class="case-box">
+              <div class="case-box-title">2. Verpackung ist Teil der technischen Dokumentation</div>
+              <p>Unter der MDR (EU) 2017/745 ist die Verpackung Bestandteil der technischen Dokumentation nach Anhang II. Eine <em>significant change</em> muss der Benannten Stelle gemeldet werden. Leitlinie: <strong>MDCG 2020-3 Rev.1</strong> (publiziert Mai 2023, technisch re-publiziert September 2023). Chart E dieser Leitlinie ordnet Packaging-Änderungen explizit zu:</p>
+              <div class="table-wrap" style="margin-top:0.5rem;">
+                <table>
+                  <thead><tr><th>Non-significant (keine Rezertifizierung)</th><th>Significant (Re-Bewertung durch NB erforderlich)</th></tr></thead>
+                  <tbody>
+                    <tr><td>Primary package size innerhalb validiertem Bereich bei unveränderten Sterilisationsparametern</td><td>Änderung am Sterilbarrieresystem, die Sterility Assurance Level beeinträchtigt</td></tr>
+                    <tr><td>Änderungen an outer packaging (Größe, Material, Layout), die Stabilität, Sterilität nicht beeinträchtigen</td><td>Änderung am Packaging Design, die Sterilität, Stabilität oder Seal Integrity betrifft</td></tr>
+                    <tr><td>Shelf-life-Extension auf Basis validierter NB-Protokolle</td><td>Shelf-life-Extension ohne validierte NB-Protokolle</td></tr>
+                    <tr><td>Wechsel des Sterilisationsanbieters bei unveränderten Parametern</td><td>Änderung der Transport-/Lagerbedingungen mit Sterility-Impact</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="case-box">
+              <div class="case-box-title">3. FDA 510(k) / PMA Impact</div>
+              <p>Im US-Markt löst ein Verpackungswechsel eine Bewertung nach FDA-Guidances für Device Changes aus. Änderungen am Sterilbarrieresystem können eine neue 510(k)-Einreichung erforderlich machen. <em>[Hinweis: Genauer FDA-Guidance-Titel ist aus aktuellem Quellmaterial nicht primärquellen-belegt — vor finalem Report direkt auf fda.gov verifizieren]</em></p>
+            </div>
+
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Verpackungsebene</th><th>MDR/FDA-Impact bei Änderung</th></tr></thead>
+                <tbody>
+                  <tr><td>Primär (Sterilbarriere)</td><td><span class="badge badge-alert">Hoch — potenziell zulassungsrelevant</span></td></tr>
+                  <tr><td>Sekundär (Umkarton)</td><td><span class="badge badge-warn">Niedrig bis mittel — laut MDCG 2020-3 Rev.1 Chart E häufig non-significant</span></td></tr>
+                  <tr><td>Tertiär (Transport)</td><td><span class="badge badge-ok">Gering — i. d. R. nicht Gegenstand der MDR-Konformitätsbewertung</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div></div>
+        </div>
+
+        <div class="collapsible">
+          <button class="collapsible-header" onclick="toggleCollapsible(this)">
+            6.4 Mehrwegsysteme — Ist-Zustand und Potenzial <span class="collapsible-icon">+</span>
+          </button>
+          <div class="collapsible-body"><div class="collapsible-body-inner">
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Aspekt</th><th>Status</th><th>Quelle</th></tr></thead>
+                <tbody>
+                  <tr><td>Mehrwegverpackungen im Einsatz</td><td><span class="badge badge-warn">Teilweise</span> — zwischen Unternehmensstandorten</td><td>Workshop</td></tr>
+                  <tr><td>Systematisches Mehrweg-Programm</td><td><span class="badge badge-alert">Nicht vorhanden</span></td><td>Abgeleitet</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="info-note">
+              <strong>Bewertung:</strong><br>
+              — Primärverpackung (Sterilbarriere): Mehrweg grundsätzlich nicht kompatibel mit Sterilitätsanforderungen<br>
+              — Tertiärverpackung (Transportebene): Mehrwegpotenzial bei gruppeninternen Shuttles (Swiss AG ↔ Germany KG)<br>
+              <strong>Empfehlung:</strong> Prüfung eines Mehrweg-Pilotprojekts für den täglichen Shuttle-Verkehr zwischen Swiss AG und Germany KG (via Noerpel).
+            </div>
+          </div></div>
+        </div>
+      </section>
+
+      <!-- ================= SCHRITT 7 ================= -->
+      <section class="section" id="section-s7">
+        <div class="section-header">
+          <div class="step-badge">Schritt 7</div>
+          <h1>Daten, Standards &amp; Dokumentation</h1>
+          <p class="section-sub">Verpackungsdatenbank, Dokumentenmanagement, Validierung und Verantwortlichkeiten</p>
+        </div>
+
+        <div class="card">
+          <div class="card-title">7.1 Status Datenbasis</div>
+          <div class="status-grid">
+            <div class="status-item">
+              <div class="status-indicator alert"></div>
+              <div class="status-item-text">
+                <div class="status-item-label">Zentrale Verpackungsdatenbank</div>
+                <div class="status-item-val">Nicht vorhanden</div>
+              </div>
+            </div>
+            <div class="status-item">
+              <div class="status-indicator warn"></div>
+              <div class="status-item-text">
+                <div class="status-item-label">Datenquellen (Excel-basiert)</div>
+                <div class="status-item-val">Overview_Packaging_V3.xlsx, YVER_ALL ENTITIES</div>
+              </div>
+            </div>
+            <div class="status-item">
+              <div class="status-indicator ok"></div>
+              <div class="status-item-text">
+                <div class="status-item-label">Verpackungsvorgaben</div>
+                <div class="status-item-val">Vorhanden, innerhalb Techn. Dokumentation</div>
+              </div>
+            </div>
+            <div class="status-item">
+              <div class="status-indicator ok"></div>
+              <div class="status-item-text">
+                <div class="status-item-label">Validierungsmaster-Plan</div>
+                <div class="status-item-val">Vorhanden (Miriam)</div>
+              </div>
+            </div>
+            <div class="status-item">
+              <div class="status-indicator warn"></div>
+              <div class="status-item-text">
+                <div class="status-item-label">Design History File</div>
+                <div class="status-item-val">Diskrepanz — Philipp: Ja / Gabriele: Nein</div>
+              </div>
+            </div>
+            <div class="status-item">
+              <div class="status-indicator alert"></div>
+              <div class="status-item-text">
+                <div class="status-item-label">PPWR-Verantwortlichkeit</div>
+                <div class="status-item-val">Nicht definiert</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="expand-all-row">
+          <button class="btn-sm" onclick="expandAll('section-s7')">Alle aufklappen</button>
+          <button class="btn-sm" onclick="collapseAll('section-s7')">Alle zuklappen</button>
+        </div>
+
+        <div class="collapsible">
+          <button class="collapsible-header" onclick="toggleCollapsible(this)">
+            7.1.3 Empfehlung: Datenbankstruktur zentrale Verpackungsdatenbank <span class="collapsible-icon">+</span>
+          </button>
+          <div class="collapsible-body"><div class="collapsible-body-inner">
+            <div class="info-note">Mindestanforderungen gemäß PPWR Anhang VII — Technische Verpackungsinformationen.</div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Datenfeld</th><th>Typ</th><th>PPWR-Relevanz</th></tr></thead>
+                <tbody>
+                  <tr><td>Packmittel-ID</td><td>Primärschlüssel</td><td>Identifikation</td></tr>
+                  <tr><td>Bezeichnung</td><td>Text</td><td>—</td></tr>
+                  <tr><td>Materialtyp</td><td>Auswahl</td><td>Art. 6, 7</td></tr>
+                  <tr><td>Materialzusammensetzung</td><td>Text/Prozent</td><td>Art. 7 (Rezyklat)</td></tr>
+                  <tr><td>Verpackungsebene</td><td>Primär/Sekundär/Tertiär</td><td>Ausnahmenprüfung</td></tr>
+                  <tr><td>Produktkontakt</td><td>Ja/Nein</td><td>Art. 3 Nr. 10</td></tr>
+                  <tr><td><strong>Primär/Sekundär-Flag (Karton-SKUs)</strong></td><td>Auswahl</td><td><strong>Coltène-spezifisch — Workshop 09.04.2026</strong></td></tr>
+                  <tr><td>Recyclingfähigkeit (Level)</td><td>A/B/C/Ausgenommen</td><td>Art. 6</td></tr>
+                  <tr><td>Rezyklat-Anteil %</td><td>Numerisch</td><td>Art. 7</td></tr>
+                  <tr><td>Gewicht (g)</td><td>Numerisch</td><td>Art. 10</td></tr>
+                  <tr><td>Volumen (cm³)</td><td>Numerisch</td><td>Art. 10</td></tr>
+                  <tr><td>Lieferant</td><td>Referenz</td><td>Compliance-Tracking</td></tr>
+                  <tr><td>Spezifikations-Version</td><td>Text</td><td>Versionierung</td></tr>
+                  <tr><td>Gültig ab</td><td>Datum</td><td>Change Control</td></tr>
+                  <tr><td>MDR-Relevanz</td><td>Ja/Nein</td><td>Ausnahmenprüfung</td></tr>
+                  <tr><td>ISO 11607-1/-2:2019+Amd 1:2023 validiert</td><td>Ja/Nein/n.a.</td><td>MedTech-Compliance</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="warn-note" style="margin-top:0.75rem;">
+              <strong>Coltène-Besonderheit — Karton als Primärverpackung (Silvia, Workshop 09.04.2026):</strong> <em>"Bei uns wird es zum Teil unterschieden, je nach Produkt. Ich habe jetzt einen Überblick, wo Karton als Primärverpackung oder als Sekundärverpackung gilt. Das kommt immer drauf an, ob der Karton produktberührend ist."</em> Konsequenz für das Datenmodell: Karton-SKUs brauchen bei Coltène einen eigenen Primär/Sekundär-Flag, weil derselbe physische Karton-Typ je nach Produkteinsatz regulatorisch unterschiedlich klassifiziert wird. Produktberührender Karton zählt als Primärverpackung und fällt damit unter die MedTech-Ausnahmen nach Art. 6 Abs. 11 und Art. 7 Abs. 4 PPWR (Recyclingfähigkeit / Rezyklatquote). Ohne dieses Flag lässt sich die Ausnahmenprüfung nicht SKU-scharf führen, und die Rezyklatquoten-Berechnung 2030 wird im schlechtesten Fall auf der falschen Basis kalkuliert.
+            </div>
+          </div></div>
+        </div>
+
+        <div class="collapsible">
+          <button class="collapsible-header" onclick="toggleCollapsible(this)">
+            7.2 Dokumentenmanagement — Ist-Zustand <span class="collapsible-icon">+</span>
+          </button>
+          <div class="collapsible-body"><div class="collapsible-body-inner">
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Dokumenttyp</th><th>Philipp</th><th>Gabriele</th><th>Bewertung</th></tr></thead>
+                <tbody>
+                  <tr><td>Verpackungsvorgaben/-spezifikationen</td><td>Ja</td><td>Ja</td><td><span class="badge badge-ok">Vorhanden</span></td></tr>
+                  <tr><td>Einhaltung dokumentiert</td><td>Innerhalb Techn. Doku</td><td>—</td><td>Dezentral</td></tr>
+                  <tr><td>Verpackungsanweisungen</td><td>Ja</td><td>Ja</td><td><span class="badge badge-ok">Vorhanden</span></td></tr>
+                  <tr><td>Schulungsunterlagen</td><td>Ja</td><td>Ja</td><td><span class="badge badge-ok">Vorhanden</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div></div>
+        </div>
+
+        <div class="collapsible">
+          <button class="collapsible-header" onclick="toggleCollapsible(this)">
+            7.4 Validierungs-Dokumentation (MedTech-spezifisch) <span class="collapsible-icon">+</span>
+          </button>
+          <div class="collapsible-body"><div class="collapsible-body-inner">
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Validierungsschritt</th><th>Status</th><th>Norm/Standard</th></tr></thead>
+                <tbody>
+                  <tr><td>Validierungsmaster-Plan</td><td><span class="badge badge-ok">Vorhanden (Miriam)</span></td><td>ISO 11607-2:2019</td></tr>
+                  <tr><td><span class="tooltip" data-tip="Installation Qualification">IQ</span> (Installation Qualification)</td><td><span class="badge badge-ok">Vorhanden</span></td><td>GMP/ISO 11607-2:2019</td></tr>
+                  <tr><td><span class="tooltip" data-tip="Operational Qualification">OQ</span> (Operational Qualification)</td><td><span class="badge badge-ok">Vorhanden</span></td><td>GMP/ISO 11607-2:2019</td></tr>
+                  <tr><td><span class="tooltip" data-tip="Performance Qualification">PQ</span> (Performance Qualification)</td><td><span class="badge badge-ok">Vorhanden</span></td><td>GMP/ISO 11607-2:2019</td></tr>
+                  <tr><td>Alterungsvalidierung (Accelerated Aging)</td><td><span class="badge badge-ok">Vorhanden</span></td><td>ASTM F1980</td></tr>
+                  <tr><td>Siegelnahtfestigkeitsprüfung</td><td><span class="badge badge-ok">Vorhanden</span></td><td>EN 868</td></tr>
+                  <tr><td>Validierter Siegelprozess IQ/OQ/PQ</td><td><span class="badge badge-warn">Diskrepanz</span> — Philipp: Ja / Gabriele: Nicht angekreuzt</td><td>GMP/ISO 11607-2:2019</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div></div>
+        </div>
+
+        <div class="collapsible">
+          <button class="collapsible-header" onclick="toggleCollapsible(this)">
+            7.5 Verantwortlichkeiten &amp; GAP PPWR <span class="collapsible-icon">+</span>
+          </button>
+          <div class="collapsible-body"><div class="collapsible-body-inner">
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Bereich</th><th>Verantwortlich</th><th>Quelle</th></tr></thead>
+                <tbody>
+                  <tr><td>Primärverpackung</td><td>R&amp;D</td><td>Gabriele</td></tr>
+                  <tr><td>Sekundärverpackung</td><td>Produktmanagement</td><td>Gabriele</td></tr>
+                  <tr><td>Transportvalidierungen</td><td>Process Engineering</td><td>Gabriele</td></tr>
+                  <tr><td>Significant Change Überprüfung</td><td>RA (Regulatory Affairs)</td><td>Gabriele</td></tr>
+                  <tr><td>Labeldossier</td><td>RA (Regulatory Affairs)</td><td>Gabriele</td></tr>
+                  <tr><td>Validierungsmaster-Plan Steril</td><td>Miriam (QM/R&amp;D)</td><td>Gabriele</td></tr>
+                  <tr><td><strong>PPWR-Compliance-Monitoring</strong></td><td><span class="data-gap">Nicht definiert — dringend benennen</span></td><td>GAP</td></tr>
+                  <tr><td><strong>PPWR-Datenmanagement</strong></td><td><span class="data-gap">Nicht definiert</span></td><td>GAP</td></tr>
+                  <tr><td><strong>Distributoren-Anfragen (Concordia, Plandent)</strong></td><td><span class="data-gap">Nicht definiert</span></td><td>GAP</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div></div>
+        </div>
+      </section>
+
+      <!-- ================= SCHRITT 8 ================= -->
+      <section class="section" id="section-s8">
+        <div class="section-header">
+          <div class="step-badge">Schritt 8</div>
+          <h1>Beschaffung &amp; Partnerauswahl</h1>
+          <p class="section-sub">Lieferantenstruktur, Compliance-Dokumentation und Beschaffungsstrategie</p>
+        </div>
+
+        <div class="card">
+          <div class="card-title">8.1 Lieferantenstruktur</div>
+          <div class="table-wrap" style="box-shadow:none; margin:0;">
+            <table class="lieferant-table">
+              <thead><tr><th>Datenpunkt</th><th>Status</th><th>Quelle</th></tr></thead>
+              <tbody>
+                <tr><td>Mehrere qualifizierte Lieferanten</td><td><span class="badge badge-ok">Ja</span></td><td>Gabriele</td></tr>
+                <tr><td>Black/White-List</td><td><span class="badge badge-ok">Vorhanden</span></td><td>Gabriele</td></tr>
+                <tr><td>Packmittel-Händler eingebunden</td><td><span class="badge badge-ok">Ja</span></td><td>Gabriele</td></tr>
+                <tr><td>Approved Suppliers qualifiziert</td><td><span class="badge badge-ok">Ja</span></td><td>Gabriele</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="info-note" style="margin-top:0.75rem; margin-bottom:0;">Bewertung: Die Grundstruktur ist solide. Mehrere Lieferanten, Qualifizierungsprozess vorhanden, Black/White-List implementiert.</div>
+        </div>
+
+        <!-- Wellpappen-Marktupdate Q1 2026 -->
+        <div class="market-warn">
+          <strong>Marktkontext-Hinweis: Wellpappen-Preisentwicklung Q1 2026</strong><br>
+          Die Wellpappen-Preisentwicklung ist Q1 2026 <strong>volatil mit geopolitischem Aufschlagsrisiko</strong>. Stand 18. März 2026 (EUWID Marktbericht) haben Kraftliner-Produzenten eine Preiserhöhung von <strong>+100 EUR/t zum 1. April 2026</strong> angekündigt — Treiber ist die Volatilität an fasergebundenen Packstoffmärkten im Zusammenhang mit geopolitischen Entwicklungen. Der VDW erwartet für 2026 nur 0,3 % Mengenzuwachs.<br><br>
+          <strong>Implikation:</strong> Die geplante gruppenweite Ausschreibung (HE-05) sollte Preisgleitklauseln explizit adressieren und den EUWID-Kraftliner-Index als Referenz nutzen. Keine Prozent-Hochrechnung für Coltène — ob die angekündigten +100 EUR/t am Markt durchgesetzt werden, hängt vom weiteren Verlauf der Makrolage ab.<br>
+          <span style="font-size:0.68rem; color:var(--secondary);">Quellen: EUWID Marktbericht Kraftliner 18.03.2026; VDW Prognose 2026, 18.12.2025</span>
+        </div>
+
+        <div class="expand-all-row">
+          <button class="btn-sm" onclick="expandAll('section-s8')">Alle aufklappen</button>
+          <button class="btn-sm" onclick="collapseAll('section-s8')">Alle zuklappen</button>
+        </div>
+
+        <div class="collapsible">
+          <button class="collapsible-header" onclick="toggleCollapsible(this)">
+            8.2 Compliance-Dokumentation <span class="collapsible-icon">+</span>
+          </button>
+          <div class="collapsible-body"><div class="collapsible-body-inner">
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Dokumenttyp</th><th>Status</th><th>Risiko</th><th>Handlungsbedarf</th></tr></thead>
+                <tbody>
+                  <tr><td><span class="tooltip" data-tip="Certificate of Conformity">CoC</span>s (Conformity Certificates)</td><td><span class="badge badge-warn">Teilweise</span></td><td>Mittel</td><td>Systematisch einfordern</td></tr>
+                  <tr><td>Materialzertifikate / Biokompatibilität</td><td><span class="badge badge-ok">Vollständig</span></td><td>Niedrig</td><td>Bestandteil der technischen Dokumentation aller Primärverpackungen (Workshop 09.04.2026)</td></tr>
+                  <tr><td>Change-Notification-Agreements</td><td><span class="badge badge-warn">Teilweise</span></td><td>Mittel</td><td>Standardvertraglich verankern</td></tr>
+                  <tr><td>Regelmäßige Audits</td><td><span class="badge badge-alert">Nicht angekreuzt</span></td><td>Mittel</td><td>Audit-Rhythmus definieren</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div></div>
+        </div>
+
+        <div class="collapsible">
+          <button class="collapsible-header" onclick="toggleCollapsible(this)">
+            8.4 Handlungsempfehlungen Beschaffung <span class="collapsible-icon">+</span>
+          </button>
+          <div class="collapsible-body"><div class="collapsible-body-inner">
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Maßnahme</th><th>Priorität</th><th>Begründung / MedTech-Kontext</th><th>Aufwand</th></tr></thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Gruppenweite Ausschreibung initiieren (HE-05)</strong></td>
+                    <td><span class="badge badge-alert">Hoch</span></td>
+                    <td>~5,6 Mio. CHF Volumen, erstmals gruppenübergreifend bündelbar. Referenz: Abbott BinaxNOW (27 % Volumenreduktion durch Konsolidierung), Plexus MedTech (~50 % Kosten durch Design-to-Cost). Band 7–22 % realistisch, typisch 12–15 %. Preisgleitklauseln für Wellpappe einbauen (+100 EUR/t Risiko Q1 2026). <span class="info-icon" data-tip="Bei 5,6 Mio CHF Gesamtvolumen liegt der Hebel der ersten Bündelung im Band 7–22 % des adressierten Volumens, typisch 12–15 %. BCG MedTech 2025: 7–12 % Reduktion total external spend; McKinsey Procurement Transformation 2023: 15–30 % über 2 Jahre. Der reine Preishebel ist nur ein Teil — der größere Hebel liegt in der Variantenkonsolidierung.">i</span></td>
+                    <td>Mittel–Hoch</td>
+                  </tr>
+                  <tr>
+                    <td><span class="tooltip" data-tip="Certificate of Conformity">CoC</span>-Abdeckung auf 100% bringen (HE-09)</td>
+                    <td><span class="badge badge-alert">Hoch</span></td>
+                    <td><span class="tooltip" data-tip="Medical Device Regulation (EU) 2017/745">MDR</span>/<span class="tooltip" data-tip="Packaging and Packaging Waste Regulation (EU) 2025/40">PPWR</span>-Compliance. Vgl. Abbott FreeStyle Libre 3 (+70 % Volumenreduktion durch Redesign), Dentsply Sirona (100 % recycelter Karton) — Ausgangspunkt war jeweils eine systematische Lieferantenkampagne. Die CoC-Bereinigung ist der ideale Anlass, parallel Varianten zu reduzieren.</td>
+                    <td>Mittel</td>
+                  </tr>
+                  <tr>
+                    <td>Change-Notification-Agreements standardisieren</td>
+                    <td><span class="badge badge-warn">Mittel</span></td>
+                    <td>Risikominimierung bei Materialänderungen</td>
+                    <td>Gering</td>
+                  </tr>
+                  <tr>
+                    <td>Lieferanten-Audit-Rhythmus definieren</td>
+                    <td><span class="badge badge-warn">Mittel</span></td>
+                    <td>Qualitätssicherung</td>
+                    <td>Gering</td>
+                  </tr>
+                  <tr>
+                    <td>Variantenanalyse über alle Standorte</td>
+                    <td><span class="badge badge-warn">Mittel</span></td>
+                    <td>Grundlage für Konsolidierung</td>
+                    <td>Mittel</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div></div>
+        </div>
+
+        <div class="collapsible">
+          <button class="collapsible-header" onclick="toggleCollapsible(this)">
+            8.5 MedTech-spezifische Beschaffungsanforderungen <span class="collapsible-icon">+</span>
+          </button>
+          <div class="collapsible-body"><div class="collapsible-body-inner">
+            <div class="info-note">MedTech-Verpackungsbeschaffung unterscheidet sich grundlegend von FMCG- oder Industriebedarf. Während im Standardgeschäft der Einkauf kurzfristig Lieferanten wechseln kann, ist jede Änderung an einer MedTech-Verpackung potenziell ein zulassungsrelevanter Eingriff. Die folgenden Anforderungen beschreiben, welche zusätzlichen Spielregeln im Coltène-Beschaffungskontext gelten — und warum ein reines Kosten-Benchmark gegen FMCG-Preise hier in die Irre führt.</div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Anforderung</th><th>Relevanz für COLTENE</th><th>Status</th><th>Erläuterung</th></tr></thead>
+                <tbody>
+                  <tr>
+                    <td>Biokompatibilitätsnachweise (Primärverpackung)</td>
+                    <td>Hoch</td>
+                    <td><span class="badge badge-ok">Vollständig</span></td>
+                    <td><span class="info-icon" data-tip="Im Workshop 09.04.2026 durch Silvia und Philipp bestätigt: Biokompatibilitätsnachweise sind Bestandteil der technischen Dokumentation für alle Primärverpackungen. Grundlage ISO 10993 (Extractables/Leachables). Jeder Lieferantenwechsel für Primärverpackungen verlangt neue Extractables/Leachables-Studien — mehrere Monate und fünfstellige Beträge. Status bleibt hoch-relevant für Lieferanten-Change-Control, ist aber nicht mehr offener Compliance-Gap.">i</span></td>
+                  </tr>
+                  <tr>
+                    <td>Sterilverpackungs-Zertifizierung Lieferanten</td>
+                    <td>Hoch</td>
+                    <td><span class="data-gap">Nicht explizit erhoben</span></td>
+                    <td><span class="info-icon" data-tip="Eine Sterilverpackung ist Teil des Sterilbarriere-Systems (SBS) nach ISO 11607 — sie muss zusammen mit dem Produkt validiert werden. Lieferanten müssen nicht nur ISO 9001, sondern speziell ISO 13485 (MedTech-QM) zertifiziert sein. Im Standard-Verpackungsmarkt ist diese Zusatzqualifikation die Ausnahme — entsprechend klein ist der Markt qualifizierter Lieferanten.">i</span></td>
+                  </tr>
+                  <tr>
+                    <td>Change Control bei Materialänderungen</td>
+                    <td>Hoch</td>
+                    <td><span class="badge badge-warn">Teilweise (Agreements)</span></td>
+                    <td><span class="info-icon" data-tip="Bei Medizinprodukten kann jede Verpackungsänderung zulassungsrelevant sein. MDCG 2020-3 Rev.1 (Mai 2023) Chart E listet explizit Beispiele für Non-significant Changes: change to primary package size within previously validated range, changes to outer packaging (size, material, layout) that do not adversely affect sterility. Diese Freiheitsgrade nutzen — aber erst nach Impact-Assessment durch RA.">i</span></td>
+                  </tr>
+                  <tr>
+                    <td>Rückverfolgbarkeit Chargenbezogen</td>
+                    <td>Hoch</td>
+                    <td><span class="badge badge-ok">Vorhanden</span></td>
+                    <td><span class="info-icon" data-tip="Bei einem Produktrückruf (Recall) muss der Hersteller innerhalb weniger Stunden nachweisen können, welche Verpackungscharge zu welchem Produkt und zu welchem Kunden gegangen ist — inklusive der verwendeten Rohmaterialchargen der Verpackung selbst. UDI (Unique Device Identification, MDR Art. 27) verlangt eine lückenlose Kette von Rohmaterial bis Endkunde.">i</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div></div>
+        </div>
+      </section>
+
+      <!-- ================= SCHRITT 9 ================= -->
+      <section class="section" id="section-s9">
+        <div class="section-header">
+          <div class="step-badge">Schritt 9</div>
+          <h1>Roadmap &amp; Governance</h1>
+          <p class="section-sub">13 Handlungsfelder, Gantt-Phasenplan, Aufwand und Governance-Empfehlung</p>
+        </div>
+
+        <!-- KLARE HANDLUNGSEMPFEHLUNGEN (prominent) -->
+        <div class="card" style="border-left: 4px solid var(--primary-text);">
+          <div class="card-title" style="color:var(--primary-text); font-size:0.95rem;">Die 5 wichtigsten Sofortmaßnahmen</div>
+          <div class="table-wrap" style="box-shadow:none; margin:0;">
+            <table>
+              <thead><tr><th>#</th><th>Maßnahme</th><th>Warum jetzt</th><th>Owner</th><th>Bis wann</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><strong>1</strong></td>
+                  <td><strong>PPWR-Verantwortlichen benennen</strong></td>
+                  <td>Ein klar benannter Verantwortlicher ist die Grundvoraussetzung für eine koordinierte PPWR-Umsetzung. Deadline: 12. August 2026.</td>
+                  <td>GL</td>
+                  <td><span class="badge badge-alert">Sofort</span></td>
+                </tr>
+                <tr>
+                  <td><strong>2</strong></td>
+                  <td><strong>Change-Control-Prozess Verpackung etablieren</strong></td>
+                  <td>Zentrales operatives Risiko. Ohne diesen Prozess können PPWR-Maßnahmen unbemerkt die MDR-Zulassung gefährden.</td>
+                  <td>RA</td>
+                  <td><span class="badge badge-alert">0–3 Monate</span></td>
+                </tr>
+                <tr>
+                  <td><strong>3</strong></td>
+                  <td><strong>ISO 11607-1/-2 + EN 868 Diskrepanz klären</strong></td>
+                  <td>Diskrepanz Philipp vs. Gabriele muss aufgelöst werden — Grundlage für alle weiteren Validierungs-Entscheidungen.</td>
+                  <td>RA + PE</td>
+                  <td><span class="badge badge-alert">0–3 Monate</span></td>
+                </tr>
+                <tr>
+                  <td><strong>4</strong></td>
+                  <td><strong>Packmittel-Baseline gruppenübergreifend erstellen</strong></td>
+                  <td>Ohne belastbare Baseline keine Ausschreibung, kein Potenzial quantifizierbar, kein PPWR-Reporting möglich.</td>
+                  <td>EK</td>
+                  <td><span class="badge badge-warn">0–6 Monate</span></td>
+                </tr>
+                <tr>
+                  <td><strong>5</strong></td>
+                  <td><strong>PFAS-Screening + CoC-Lücken schließen</strong></td>
+                  <td>Art. 5 Abs. 1 PPWR Minimierungspflicht gilt bereits. CoC-Lücken gefährden MDR-Compliance bei nächstem Audit.</td>
+                  <td>EK + QM</td>
+                  <td><span class="badge badge-warn">0–6 Monate</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 9.3b NEU — Datenbank als Flaschenhals -->
+        <div class="card">
+          <div class="card-title">9.3b Top-Priorität Phase 1 — Zentrale Verpackungsdatenbank <span class="badge badge-alert">Flaschenhals</span></div>
+          <div class="warn-note">
+            <strong>Zentrale Aussage:</strong> Die <strong>zentrale Verpackungsdatenbank ist der Engpass, an dem alle anderen Hebel hängen</strong>. Ohne konsolidierte SKU-Basis mit Primär/Sekundär-Flag, Materialzusammensetzung, Rezyklat-Anteil und Ebenen-Zuordnung sind weder die PPWR-Ausnahmenprüfung, noch die gruppenweite Ausschreibung, noch die Variantenreduktion belastbar durchführbar. Jede weitere Phase-1-Massnahme setzt diese Datenbasis voraus.
+          </div>
+          <div class="zitat-box" style="margin-top:0.75rem;">
+            <blockquote>"Genau da benötigen wir Unterstützung. Sollen wir uns dazu noch mal treffen, Max, du und ich, inwiefern ihr euch, ihr euch oder ihr uns unterstützen könnt."</blockquote>
+            <cite>— Philipp, Coltène, Workshop 09.04.2026</cite>
+          </div>
+          <div class="info-note" style="margin-top:0.75rem;">
+            <strong>Teilprojekt-Optionen — im Folgetermin zu entscheiden:</strong>
+            <ul style="margin-top:0.5rem; padding-left:1.2rem;">
+              <li><strong>Option A — ERP-Integration (SAP):</strong> Packmittelstammdaten als eigener Materialstamm-Erweiterungsblock in SAP. Vorteil: eine Single Source of Truth, direkte Anbindung an Einkauf und Reporting. Nachteil: IT-Projekt mit Lead-Zeit, SAP-Governance.</li>
+              <li><strong>Option B — Insellösung:</strong> Dediziertes Verpackungsdatenbank-Tool (z. B. Specright, PackMan, Eigenentwicklung). Vorteil: schnell, fachlich passgenau. Nachteil: zweite Datenhaltung neben SAP, Schnittstellen-Pflege.</li>
+              <li><strong>Option C — Excel-Migration:</strong> Konsolidierung der bestehenden dezentralen Excels (inkl. Overview_Packaging_V3) zu einem strukturierten Gruppenstammblatt als Zwischenschritt. Vorteil: sofort machbar, minimaler IT-Aufwand. Nachteil: keine Workflow-Funktionen, keine Versionskontrolle, wächst nicht mit.</li>
+            </ul>
+          </div>
+          <div class="info-note" style="margin-top:0.5rem;">
+            <strong>Nächster Schritt:</strong> Folgetermin Philipp / Max zur Scope-Klärung — Umfang, Schnittstellen, Verantwortlichkeiten, PKA-Beteiligungsmodell. Terminvorschlag wird nach Abgabe R003 abgestimmt.
+          </div>
+        </div>
+
+        <!-- GANTT ROADMAP (statt bisheriger Phase-Lane-Chips) -->
+        <div class="card">
+          <div class="card-title">9.4 Roadmap-Gantt — 24-Monats-Phasenplan</div>
+          <div class="gantt-wrap">
+            <div class="gantt">
+              <!-- Header Zeile 1: Phasen -->
+              <div class="gantt-header-cell label-col">Handlungsfeld</div>
+              <div class="gantt-header-phase" style="grid-column: span 6; background:var(--primary-text);">Phase 1: Quick Wins (0–6 M)</div>
+              <div class="gantt-header-phase" style="grid-column: span 12; background:#b8860b;">Phase 2: Mittelfristig (6–18 M)</div>
+              <div class="gantt-header-phase" style="grid-column: span 6; background:#5a5a5a;">Phase 3: Langfristig (&gt;18 M)</div>
+
+              <!-- Header Zeile 2: Monate -->
+              <div class="gantt-header-cell label-col">Monat →</div>
+              <div class="gantt-header-cell quarter-start">1</div><div class="gantt-header-cell">2</div><div class="gantt-header-cell">3</div><div class="gantt-header-cell quarter-start">4</div><div class="gantt-header-cell">5</div><div class="gantt-header-cell quarter-start">6</div>
+              <div class="gantt-header-cell quarter-start">7</div><div class="gantt-header-cell">8</div><div class="gantt-header-cell">9</div><div class="gantt-header-cell quarter-start">10</div><div class="gantt-header-cell">11</div><div class="gantt-header-cell quarter-start">12</div>
+              <div class="gantt-header-cell quarter-start">13</div><div class="gantt-header-cell">14</div><div class="gantt-header-cell">15</div><div class="gantt-header-cell quarter-start">16</div><div class="gantt-header-cell">17</div><div class="gantt-header-cell quarter-start">18</div>
+              <div class="gantt-header-cell quarter-start">19</div><div class="gantt-header-cell">20</div><div class="gantt-header-cell">21</div><div class="gantt-header-cell quarter-start">22</div><div class="gantt-header-cell">23</div><div class="gantt-header-cell quarter-start">24</div>
+
+              <!-- H10 PPWR-Verantwortlichkeit -->
+              <div class="gantt-row-label">H10 PPWR-Verantwortlichkeit</div>
+              <div class="gantt-cell quarter-start" style="position:relative;"><div class="gantt-bar p1" style="right:50%;"></div></div>
+              <div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell quarter-start"></div><div class="gantt-cell"></div><div class="gantt-cell quarter-start"></div>
+              <div class="gantt-cell quarter-start"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell quarter-start"></div><div class="gantt-cell"></div><div class="gantt-cell quarter-start"></div>
+              <div class="gantt-cell quarter-start"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell quarter-start"></div><div class="gantt-cell"></div><div class="gantt-cell quarter-start"></div>
+              <div class="gantt-cell quarter-start"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell quarter-start"></div><div class="gantt-cell"></div><div class="gantt-cell quarter-start"></div>
+
+              <!-- H2 ISO 11607/EN 868 -->
+              <div class="gantt-row-label">H2 ISO 11607-1/-2 / EN 868 Klärung</div>
+              <div class="gantt-cell quarter-start" style="position:relative;"><div class="gantt-bar p1"></div></div>
+              <div class="gantt-cell" style="position:relative;"><div class="gantt-bar p1"></div></div>
+              <div class="gantt-cell" style="position:relative;"><div class="gantt-bar p1"></div></div>
+              <div class="gantt-cell quarter-start"></div><div class="gantt-cell"></div><div class="gantt-cell quarter-start"></div>
+              <div class="gantt-cell quarter-start"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell quarter-start"></div><div class="gantt-cell"></div><div class="gantt-cell quarter-start"></div>
+              <div class="gantt-cell quarter-start"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell quarter-start"></div><div class="gantt-cell"></div><div class="gantt-cell quarter-start"></div>
+              <div class="gantt-cell quarter-start"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell quarter-start"></div><div class="gantt-cell"></div><div class="gantt-cell quarter-start"></div>
+
+              <!-- H7 Change-Control PPWR-Deadline -->
+              <div class="gantt-row-label">H7 Change-Control-Prozess Verpackung <span class="badge badge-alert" style="font-size:0.6rem;">Kritisch</span></div>
+              <div class="gantt-cell quarter-start" style="position:relative;"><div class="gantt-bar deadline"></div></div>
+              <div class="gantt-cell" style="position:relative;"><div class="gantt-bar deadline"></div></div>
+              <div class="gantt-cell" style="position:relative;"><div class="gantt-bar deadline"></div></div>
+              <div class="gantt-cell quarter-start" style="position:relative;"><div class="gantt-bar deadline"></div></div>
+              <div class="gantt-cell" style="position:relative;"><div class="gantt-bar deadline"></div></div>
+              <div class="gantt-cell quarter-start" style="position:relative;"><div class="gantt-bar deadline"></div></div>
+              <div class="gantt-cell quarter-start" style="position:relative;"><div class="gantt-bar p2"></div></div>
+              <div class="gantt-cell" style="position:relative;"><div class="gantt-bar p2"></div></div>
+              <div class="gantt-cell" style="position:relative;"><div class="gantt-bar p2"></div></div>
+              <div class="gantt-cell quarter-start"></div><div class="gantt-cell"></div><div class="gantt-cell quarter-start"></div>
+              <div class="gantt-cell quarter-start"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell quarter-start"></div><div class="gantt-cell"></div><div class="gantt-cell quarter-start"></div>
+              <div class="gantt-cell quarter-start"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell quarter-start"></div><div class="gantt-cell"></div><div class="gantt-cell quarter-start"></div>
+
+              <!-- H11 PFAS-Screening -->
+              <div class="gantt-row-label">H11 PFAS-Screening + H5 CoC-Lücken</div>
+              <div class="gantt-cell quarter-start" style="position:relative;"><div class="gantt-bar p1"></div></div>
+              <div class="gantt-cell" style="position:relative;"><div class="gantt-bar p1"></div></div>
+              <div class="gantt-cell" style="position:relative;"><div class="gantt-bar p1"></div></div>
+              <div class="gantt-cell quarter-start" style="position:relative;"><div class="gantt-bar p1"></div></div>
+              <div class="gantt-cell" style="position:relative;"><div class="gantt-bar p1"></div></div>
+              <div class="gantt-cell quarter-start" style="position:relative;"><div class="gantt-bar p1"></div></div>
+              <div class="gantt-cell quarter-start"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell quarter-start"></div><div class="gantt-cell"></div><div class="gantt-cell quarter-start"></div>
+              <div class="gantt-cell quarter-start"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell quarter-start"></div><div class="gantt-cell"></div><div class="gantt-cell quarter-start"></div>
+              <div class="gantt-cell quarter-start"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell quarter-start"></div><div class="gantt-cell"></div><div class="gantt-cell quarter-start"></div>
+
+              <!-- H4 Baseline + Datenbank -->
+              <div class="gantt-row-label">H4 Baseline + Verpackungsdatenbank</div>
+              <div class="gantt-cell quarter-start" style="position:relative;"><div class="gantt-bar p1"></div></div>
+              <div class="gantt-cell" style="position:relative;"><div class="gantt-bar p1"></div></div>
+              <div class="gantt-cell" style="position:relative;"><div class="gantt-bar p1"></div></div>
+              <div class="gantt-cell quarter-start" style="position:relative;"><div class="gantt-bar p1"></div></div>
+              <div class="gantt-cell" style="position:relative;"><div class="gantt-bar p1"></div></div>
+              <div class="gantt-cell quarter-start" style="position:relative;"><div class="gantt-bar p1"></div></div>
+              <div class="gantt-cell quarter-start" style="position:relative;"><div class="gantt-bar p2"></div></div>
+              <div class="gantt-cell" style="position:relative;"><div class="gantt-bar p2"></div></div>
+              <div class="gantt-cell" style="position:relative;"><div class="gantt-bar p2"></div></div>
+              <div class="gantt-cell quarter-start" style="position:relative;"><div class="gantt-bar p2"></div></div>
+              <div class="gantt-cell" style="position:relative;"><div class="gantt-bar p2"></div></div>
+              <div class="gantt-cell quarter-start" style="position:relative;"><div class="gantt-bar p2"></div></div>
+              <div class="gantt-cell quarter-start" style="position:relative;"><div class="gantt-bar p2"></div></div>
+              <div class="gantt-cell" style="position:relative;"><div class="gantt-bar p2"></div></div>
+              <div class="gantt-cell" style="position:relative;"><div class="gantt-bar p2"></div></div>
+              <div class="gantt-cell quarter-start" style="position:relative;"><div class="gantt-bar p2"></div></div>
+              <div class="gantt-cell" style="position:relative;"><div class="gantt-bar p2"></div></div>
+              <div class="gantt-cell quarter-start" style="position:relative;"><div class="gantt-bar p2"></div></div>
+              <div class="gantt-cell quarter-start" style="position:relative;"><div class="gantt-bar p3"></div></div>
+              <div class="gantt-cell" style="position:relative;"><div class="gantt-bar p3"></div></div>
+              <div class="gantt-cell" style="position:relative;"><div class="gantt-bar p3"></div></div>
+              <div class="gantt-cell quarter-start" style="position:relative;"><div class="gantt-bar p3"></div></div>
+              <div class="gantt-cell" style="position:relative;"><div class="gantt-bar p3"></div></div>
+              <div class="gantt-cell quarter-start" style="position:relative;"><div class="gantt-bar p3"></div></div>
+
+              <!-- H3 Ausschreibung -->
+              <div class="gantt-row-label">H3 Gruppenweite Ausschreibung</div>
+              <div class="gantt-cell quarter-start"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell quarter-start"></div><div class="gantt-cell"></div><div class="gantt-cell quarter-start"></div>
+              <div class="gantt-cell quarter-start" style="position:relative;"><div class="gantt-bar p2"></div></div>
+              <div class="gantt-cell" style="position:relative;"><div class="gantt-bar p2"></div></div>
+              <div class="gantt-cell" style="position:relative;"><div class="gantt-bar p2"></div></div>
+              <div class="gantt-cell quarter-start" style="position:relative;"><div class="gantt-bar p2"></div></div>
+              <div class="gantt-cell" style="position:relative;"><div class="gantt-bar p2"></div></div>
+              <div class="gantt-cell quarter-start" style="position:relative;"><div class="gantt-bar p2"></div></div>
+              <div class="gantt-cell quarter-start" style="position:relative;"><div class="gantt-bar p2"></div></div>
+              <div class="gantt-cell" style="position:relative;"><div class="gantt-bar p2"></div></div>
+              <div class="gantt-cell" style="position:relative;"><div class="gantt-bar p2"></div></div>
+              <div class="gantt-cell quarter-start" style="position:relative;"><div class="gantt-bar p2"></div></div>
+              <div class="gantt-cell" style="position:relative;"><div class="gantt-bar p2"></div></div>
+              <div class="gantt-cell quarter-start" style="position:relative;"><div class="gantt-bar p2"></div></div>
+              <div class="gantt-cell quarter-start"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell quarter-start"></div><div class="gantt-cell"></div><div class="gantt-cell quarter-start"></div>
+
+              <!-- H12 Rezyklat-Strategie -->
+              <div class="gantt-row-label">H12 Rezyklat-Strategie Sekundär/Tertiär</div>
+              <div class="gantt-cell quarter-start"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell quarter-start"></div><div class="gantt-cell"></div><div class="gantt-cell quarter-start"></div>
+              <div class="gantt-cell quarter-start" style="position:relative;"><div class="gantt-bar p2"></div></div>
+              <div class="gantt-cell" style="position:relative;"><div class="gantt-bar p2"></div></div>
+              <div class="gantt-cell" style="position:relative;"><div class="gantt-bar p2"></div></div>
+              <div class="gantt-cell quarter-start" style="position:relative;"><div class="gantt-bar p2"></div></div>
+              <div class="gantt-cell" style="position:relative;"><div class="gantt-bar p2"></div></div>
+              <div class="gantt-cell quarter-start" style="position:relative;"><div class="gantt-bar p2"></div></div>
+              <div class="gantt-cell quarter-start" style="position:relative;"><div class="gantt-bar p2"></div></div>
+              <div class="gantt-cell" style="position:relative;"><div class="gantt-bar p2"></div></div>
+              <div class="gantt-cell" style="position:relative;"><div class="gantt-bar p2"></div></div>
+              <div class="gantt-cell quarter-start" style="position:relative;"><div class="gantt-bar p2"></div></div>
+              <div class="gantt-cell" style="position:relative;"><div class="gantt-bar p2"></div></div>
+              <div class="gantt-cell quarter-start" style="position:relative;"><div class="gantt-bar p2"></div></div>
+              <div class="gantt-cell quarter-start" style="position:relative;"><div class="gantt-bar p3"></div></div>
+              <div class="gantt-cell" style="position:relative;"><div class="gantt-bar p3"></div></div>
+              <div class="gantt-cell" style="position:relative;"><div class="gantt-bar p3"></div></div>
+              <div class="gantt-cell quarter-start" style="position:relative;"><div class="gantt-bar p3"></div></div>
+              <div class="gantt-cell" style="position:relative;"><div class="gantt-bar p3"></div></div>
+              <div class="gantt-cell quarter-start" style="position:relative;"><div class="gantt-bar p3"></div></div>
+
+              <!-- H9 Automatisierung + H13 Mehrweg -->
+              <div class="gantt-row-label">H9 Automatisierung + H13 Mehrweg-Pilot</div>
+              <div class="gantt-cell quarter-start"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell quarter-start"></div><div class="gantt-cell"></div><div class="gantt-cell quarter-start"></div>
+              <div class="gantt-cell quarter-start"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell quarter-start"></div><div class="gantt-cell"></div><div class="gantt-cell quarter-start"></div>
+              <div class="gantt-cell quarter-start"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell quarter-start"></div><div class="gantt-cell"></div><div class="gantt-cell quarter-start"></div>
+              <div class="gantt-cell quarter-start" style="position:relative;"><div class="gantt-bar p3"></div></div>
+              <div class="gantt-cell" style="position:relative;"><div class="gantt-bar p3"></div></div>
+              <div class="gantt-cell" style="position:relative;"><div class="gantt-bar p3"></div></div>
+              <div class="gantt-cell quarter-start" style="position:relative;"><div class="gantt-bar p3"></div></div>
+              <div class="gantt-cell" style="position:relative;"><div class="gantt-bar p3"></div></div>
+              <div class="gantt-cell quarter-start" style="position:relative;"><div class="gantt-bar p3"></div></div>
+            </div>
+          </div>
+          <div class="gantt-legend">
+            <div class="gantt-legend-item"><div class="gantt-legend-dot" style="background:rgba(14,122,118,0.75);"></div>Phase 1 — Quick Wins</div>
+            <div class="gantt-legend-item"><div class="gantt-legend-dot" style="background:rgba(255,215,0,0.7);"></div>Phase 2 — Mittelfristig</div>
+            <div class="gantt-legend-item"><div class="gantt-legend-dot" style="background:rgba(90,90,90,0.5);"></div>Phase 3 — Langfristig</div>
+            <div class="gantt-legend-item"><div class="gantt-legend-dot" style="background:rgba(255,0,153,0.7);"></div>Deadline-kritisch (PPWR Aug. 2026)</div>
+          </div>
+        </div>
+
+        <div class="expand-all-row">
+          <button class="btn-sm" onclick="expandAll('section-s9')">Alle aufklappen</button>
+          <button class="btn-sm" onclick="collapseAll('section-s9')">Alle zuklappen</button>
+        </div>
+
+        <div class="collapsible">
+          <button class="collapsible-header" onclick="toggleCollapsible(this)">
+            9.1 Übersicht 13 Handlungsfelder <span class="collapsible-icon">+</span>
+          </button>
+          <div class="collapsible-body"><div class="collapsible-body-inner">
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>ID</th><th>Handlungsfeld</th><th>Bezug</th><th>Haupttreiber</th><th>Externe Deadline</th></tr></thead>
+                <tbody>
+                  <tr><td>H1</td><td>PPWR-Compliance erreichen</td><td>Schritt 2, 6</td><td>Compliance</td><td><span class="badge badge-alert">August 2026</span></td></tr>
+                  <tr><td>H2</td><td>ISO 11607-1/-2:2019+Amd 1:2023 / EN 868 Klärung</td><td>Schritt 2, 3, 6</td><td>Compliance</td><td>—</td></tr>
+                  <tr><td>H3</td><td>Gruppenweite Packmittel-Ausschreibung</td><td>Schritt 5, 8</td><td>Kosten</td><td>—</td></tr>
+                  <tr><td>H4</td><td>Zentrale Verpackungsdatenbank</td><td>Schritt 2, 7</td><td>Compliance + Effizienz</td><td>—</td></tr>
+                  <tr><td>H5</td><td>Lieferanten-Compliance (CoCs, Zertifikate)</td><td>Schritt 2, 8</td><td>Compliance</td><td>—</td></tr>
+                  <tr><td>H6</td><td>Change-Management-Prozess Verpackung</td><td>Schritt 2, 6, 7</td><td>Compliance</td><td>—</td></tr>
+                  <tr><td>H7</td><td>Schadensanalyse implementieren</td><td>Schritt 3, 5</td><td>Qualität + Kosten</td><td>—</td></tr>
+                  <tr><td>H8</td><td>Design History File harmonisieren</td><td>Schritt 2, 7</td><td>Compliance</td><td>—</td></tr>
+                  <tr><td>H9</td><td>Automatisierungspotenziale prüfen</td><td>Schritt 4</td><td>Effizienz</td><td>—</td></tr>
+                  <tr><td>H10</td><td>PPWR-Verantwortlichkeit definieren</td><td>Schritt 6, 7</td><td>Compliance</td><td>—</td></tr>
+                  <tr><td>H11</td><td>PFAS-Screening durchführen (Art. 5 Abs. 1 PPWR)</td><td>Schritt 6</td><td>Compliance</td><td>—</td></tr>
+                  <tr><td>H12</td><td>Rezyklat-Strategie Sekundär-/Tertiärverpackung</td><td>Schritt 6</td><td>Compliance</td><td><span class="badge badge-warn">PPWR-Quoten 2030</span></td></tr>
+                  <tr><td>H13</td><td>Mehrweg-Pilotprojekt Shuttle-Verkehr</td><td>Schritt 6</td><td>Nachhaltigkeit</td><td>—</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div></div>
+        </div>
+
+        <div class="collapsible">
+          <button class="collapsible-header" onclick="toggleCollapsible(this)">
+            9.2 Priorisierung <span class="collapsible-icon">+</span>
+          </button>
+          <div class="collapsible-body"><div class="collapsible-body-inner">
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Handlungsfeld</th><th>Dringlichkeit</th><th>Komplexität</th><th>Mehrwert</th><th>Quick Win</th></tr></thead>
+                <tbody>
+                  <tr><td>H1 PPWR-Compliance</td><td><span class="badge badge-alert">Hoch</span></td><td>Hoch</td><td>Hoch</td><td>Nein</td></tr>
+                  <tr><td>H2 ISO 11607-1/-2 / EN 868</td><td><span class="badge badge-alert">Hoch</span></td><td>Gering</td><td>Hoch</td><td><span class="badge badge-ok">Ja</span></td></tr>
+                  <tr><td>H3 Gruppenweite Ausschreibung</td><td><span class="badge badge-warn">Mittel</span></td><td>Hoch</td><td><strong>Hoch</strong></td><td>Nein</td></tr>
+                  <tr><td>H4 Verpackungsdatenbank</td><td><span class="badge badge-alert">Hoch</span></td><td>Hoch</td><td>Hoch</td><td>Nein</td></tr>
+                  <tr><td>H5 Lieferanten-Compliance</td><td><span class="badge badge-alert">Hoch</span></td><td>Mittel</td><td>Hoch</td><td><span class="badge badge-warn">Teilweise</span></td></tr>
+                  <tr><td>H6 Change-Control-Prozess</td><td><span class="badge badge-alert">Hoch</span></td><td>Mittel</td><td>Hoch</td><td>Nein</td></tr>
+                  <tr><td>H7 Schadensanalyse</td><td>Gering</td><td>Gering</td><td>Mittel</td><td><span class="badge badge-ok">Ja</span></td></tr>
+                  <tr><td>H8 Design History File</td><td><span class="badge badge-warn">Mittel</span></td><td>Gering</td><td>Mittel</td><td><span class="badge badge-ok">Ja</span></td></tr>
+                  <tr><td>H9 Automatisierung</td><td>Gering</td><td>Hoch</td><td>Mittel</td><td>Nein</td></tr>
+                  <tr><td>H10 PPWR-Verantwortlichkeit</td><td><span class="badge badge-alert">Hoch</span></td><td>Gering</td><td>Hoch</td><td><span class="badge badge-ok">Ja</span></td></tr>
+                  <tr><td>H11 PFAS-Screening</td><td><span class="badge badge-alert">Hoch</span></td><td>Mittel</td><td>Hoch</td><td><span class="badge badge-warn">Teilweise</span></td></tr>
+                  <tr><td>H12 Rezyklat-Strategie</td><td><span class="badge badge-warn">Mittel</span></td><td>Mittel</td><td>Hoch</td><td>Nein</td></tr>
+                  <tr><td>H13 Mehrweg-Pilotprojekt</td><td>Gering</td><td>Mittel</td><td>Mittel</td><td>Nein</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div></div>
+        </div>
+
+        <div class="collapsible">
+          <button class="collapsible-header" onclick="toggleCollapsible(this)">
+            9.3 Aufwandseinordnung <span class="collapsible-icon">+</span>
+          </button>
+          <div class="collapsible-body"><div class="collapsible-body-inner">
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Handlungsfeld</th><th>Interner Aufwand</th><th>Zeithorizont</th><th>Umsetzungsoption</th><th>Abhängigkeiten</th></tr></thead>
+                <tbody>
+                  <tr><td>H1 PPWR-Compliance</td><td>Hoch</td><td>0–6 Mo</td><td><strong>Begleitet</strong></td><td>H4, H5, H10</td></tr>
+                  <tr><td>H2 ISO 11607-1/-2 / EN 868</td><td>Gering</td><td>0–3 Mo</td><td>Eigenleistung</td><td>—</td></tr>
+                  <tr><td>H3 Gruppenweite Ausschreibung</td><td>Mittel</td><td>6–12 Mo</td><td><strong>Begleitet</strong></td><td>H4</td></tr>
+                  <tr><td>H4 Verpackungsdatenbank</td><td>Hoch</td><td>6–18 Mo</td><td>Begleitet/Ausgelagert</td><td>—</td></tr>
+                  <tr><td>H5 Lieferanten-Compliance</td><td>Mittel</td><td>0–6 Mo</td><td>Eigenleistung</td><td>—</td></tr>
+                  <tr><td>H6 Change-Control-Prozess</td><td>Mittel</td><td>0–6 Mo</td><td>Eigenleistung mit RA</td><td>—</td></tr>
+                  <tr><td>H7 Schadensanalyse</td><td>Gering</td><td>0–6 Mo</td><td>Eigenleistung</td><td>—</td></tr>
+                  <tr><td>H8 Design History File</td><td>Gering</td><td>0–3 Mo</td><td>Eigenleistung</td><td>—</td></tr>
+                  <tr><td>H9 Automatisierung</td><td>Hoch</td><td>&gt;18 Mo</td><td>Begleitet</td><td>H4, H7</td></tr>
+                  <tr><td>H10 PPWR-Verantwortlichkeit</td><td>Gering</td><td>0–1 Mo</td><td>Eigenleistung</td><td>—</td></tr>
+                  <tr><td>H11 PFAS-Screening</td><td>Mittel</td><td>0–6 Mo</td><td>Eigenleistung</td><td>—</td></tr>
+                  <tr><td>H12 Rezyklat-Strategie</td><td>Mittel</td><td>6–18 Mo</td><td>Begleitet</td><td>H4, H5</td></tr>
+                  <tr><td>H13 Mehrweg-Pilotprojekt</td><td>Mittel</td><td>12–24 Mo</td><td>Eigenleistung</td><td>—</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div></div>
+        </div>
+
+        <!-- RACI-Matrix -->
+        <div class="collapsible">
+          <button class="collapsible-header" onclick="toggleCollapsible(this)">
+            9.5b RACI-Matrix — Verantwortlichkeiten Handlungsempfehlungen <span class="collapsible-icon">+</span>
+          </button>
+          <div class="collapsible-body"><div class="collapsible-body-inner">
+            <div class="warn-note">
+              <strong>Kernbotschaft:</strong> Keine der 13 Handlungsempfehlungen lässt sich allein vom Einkauf umsetzen. Der VPF ist ein Cross-Functional-Projekt — ein interdisziplinärer Lenkungskreis ist die Voraussetzung für einen erfolgreichen Abschluss.
+            </div>
+            <div class="info-note">R = Responsible (führt aus) | A = Accountable (verantwortet Ergebnis) | C = Consulted (liefert Input) | I = Informed</div>
+            <div class="table-wrap">
+              <table class="raci-table">
+                <thead><tr><th>HE</th><th>Handlungsempfehlung</th><th>R&D</th><th>PM</th><th>PE</th><th>EK</th><th>RA</th><th>QM</th><th>NH</th><th>OPS</th><th>CO</th><th>IT</th><th>GL</th></tr></thead>
+                <tbody>
+                  <tr><td>HE-01</td><td>ISO 11607 / EN 868 klären</td><td>C</td><td>I</td><td>C</td><td>I</td><td class="raci-cell-ra">R/A</td><td>C</td><td>I</td><td>I</td><td>—</td><td>—</td><td>I</td></tr>
+                  <tr><td>HE-02</td><td>PPWR-Verantwortlichen benennen</td><td>I</td><td>I</td><td>I</td><td>I</td><td>C</td><td>C</td><td>C</td><td>I</td><td>—</td><td>—</td><td class="raci-cell-ra">R/A</td></tr>
+                  <tr><td>HE-03</td><td>PFAS-Screening</td><td>C</td><td>I</td><td>C</td><td class="raci-cell-ra">R</td><td>C</td><td class="raci-cell-ra">A</td><td>C</td><td>I</td><td>—</td><td>—</td><td>I</td></tr>
+                  <tr><td>HE-04</td><td>Gruppenweite Packmittel-Baseline</td><td>C</td><td>C</td><td>C</td><td class="raci-cell-ra">R/A</td><td>I</td><td>I</td><td>C</td><td>C</td><td>C</td><td>C</td><td>I</td></tr>
+                  <tr><td>HE-05</td><td>Ausschreibung Wellpappe (Pilot)</td><td>C</td><td>C</td><td>C</td><td class="raci-cell-ra">R/A</td><td>C</td><td>C</td><td>I</td><td>C</td><td>I</td><td>—</td><td>I</td></tr>
+                  <tr><td>HE-06</td><td>Zentrale Verpackungsdatenbank</td><td>C</td><td>C</td><td>C</td><td>C</td><td>C</td><td>C</td><td>C</td><td>I</td><td>I</td><td class="raci-cell-ra">R/A</td><td>I</td></tr>
+                  <tr><td>HE-07</td><td>Change-Control-Prozess Verpackung</td><td>C</td><td>C</td><td>C</td><td>I</td><td class="raci-cell-ra">R/A</td><td>C</td><td>I</td><td>I</td><td>—</td><td>—</td><td>I</td></tr>
+                  <tr><td>HE-08</td><td>Schadenserfassung</td><td>I</td><td>C</td><td class="raci-cell-ra">R/A</td><td>I</td><td>I</td><td>C</td><td>I</td><td>C</td><td>C</td><td>C</td><td>I</td></tr>
+                  <tr><td>HE-09</td><td>CoC-Abdeckung 100%</td><td>I</td><td>I</td><td>I</td><td class="raci-cell-ra">R</td><td>C</td><td class="raci-cell-ra">A</td><td>I</td><td>I</td><td>—</td><td>—</td><td>I</td></tr>
+                  <tr><td>HE-10</td><td>Design History File Audit</td><td class="raci-cell-ra">R</td><td>I</td><td>I</td><td>I</td><td>C</td><td class="raci-cell-ra">A</td><td>I</td><td>I</td><td>—</td><td>—</td><td>I</td></tr>
+                  <tr><td>HE-11</td><td>Leerraum-Analyse</td><td>C</td><td>C</td><td class="raci-cell-ra">R/A</td><td>I</td><td>I</td><td>I</td><td>I</td><td>C</td><td>I</td><td>—</td><td>I</td></tr>
+                  <tr><td>HE-12</td><td>Mehrweg-Pilot Shuttle</td><td>I</td><td>I</td><td class="raci-cell-ra">R/A</td><td>C</td><td>C</td><td>I</td><td>C</td><td>C</td><td>C</td><td>—</td><td>I</td></tr>
+                  <tr><td>HE-13</td><td>Reporting-Standard Verpackungskosten</td><td>I</td><td>I</td><td>C</td><td>C</td><td>I</td><td>I</td><td>I</td><td>C</td><td class="raci-cell-ra">R/A</td><td>C</td><td>I</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p style="font-size:0.68rem; color:var(--secondary);">EK = Einkauf | RA = Regulatory Affairs | QM = Quality Management | PE = Process Engineering | NH = Nachhaltigkeit | OPS = Operations | CO = Controlling | IT = Informationstechnologie | GL = Geschäftsleitung</p>
+          </div></div>
+        </div>
+
+        <div class="collapsible">
+          <button class="collapsible-header" onclick="toggleCollapsible(this)">
+            9.5 Governance-Empfehlung <span class="collapsible-icon">+</span>
+          </button>
+          <div class="collapsible-body"><div class="collapsible-body-inner">
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Rolle</th><th>Empfohlene Besetzung</th><th>Aufgabe</th></tr></thead>
+                <tbody>
+                  <tr><td><strong>Projektleitung Verpackungsfahrplan</strong></td><td>Process Engineering oder R&amp;D</td><td>Gesamtkoordination, Fortschrittskontrolle</td></tr>
+                  <tr><td><strong>PPWR-Verantwortlicher</strong></td><td>RA oder Nachhaltigkeit</td><td>Compliance-Deadline sicherstellen</td></tr>
+                  <tr><td><strong>Beschaffungs-Lead</strong></td><td>Einkauf</td><td>Ausschreibung koordinieren</td></tr>
+                  <tr><td><strong>Standort-Vertreter</strong></td><td>Je 1 pro Standort</td><td>Lokale Umsetzung</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="table-wrap" style="margin-top:0.75rem;">
+              <table>
+                <thead><tr><th>Datenpunkt</th><th>Empfehlung</th></tr></thead>
+                <tbody>
+                  <tr><td>Steering-Kreis Zusammensetzung</td><td>R&D, PM, PE, EK, RA, QM, Operations — kein reines Einkaufsgremium</td></tr>
+                  <tr><td>Review-Rhythmus</td><td>Monatlich (Kernteam), Quartalsweise (Steering)</td></tr>
+                  <tr><td>KPI-Tracking</td><td>Quartalsweise, Verantwortung bei Projektleitung</td></tr>
+                  <tr><td>Eskalationspfad</td><td>Projektleitung → Geschäftsführung</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div></div>
+        </div>
+
+        <div class="collapsible">
+          <button class="collapsible-header" onclick="toggleCollapsible(this)">
+            Anhang A: Offene Fragen / Datenlücken <span class="collapsible-icon">+</span>
+          </button>
+          <div class="collapsible-body"><div class="collapsible-body-inner">
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>ID</th><th>Thema</th><th>Klärungsbedarf</th><th>Adressat</th></tr></thead>
+                <tbody>
+                  <tr><td>D1</td><td>ISO 11607-1/-2:2019+Amd 1:2023 / EN 868 Status</td><td>Intern abzustimmen zwischen Fragebögen Philipp (RA) und Gabriele (Einkauf/QM). Philipp im Workshop 09.04.2026: Richtlinien müssten mit Miriam geklärt sein, es gibt Abweichungen zwischen Gabriele's Input und seinem eigenen. <strong>Kein PKA-To-Do — rein interne Klärung bei Coltène.</strong></td><td>Coltène intern (RA / Miriam / Einkauf)</td></tr>
+                  <tr><td>D2</td><td>Design History File</td><td>Diskrepanz Philipp vs. Gabriele</td><td>R&amp;D + RA</td></tr>
+                  <tr><td>D3</td><td>Validierter Siegelprozess</td><td>Gabriele hat nicht angekreuzt</td><td>Process Engineering</td></tr>
+                  <tr><td>D4</td><td>Schadensquote/-kosten</td><td>Keine Daten vorhanden</td><td>Process Engineering + Controlling</td></tr>
+                  <tr><td>D5</td><td>Kostenaufschlüsselung</td><td>Nach Ebenen/Standorten/Materialgruppen</td><td>Controlling</td></tr>
+                  <tr><td>D6</td><td>Anzahl Packmittel-Varianten</td><td>Gruppenweit konsolidieren</td><td>Einkauf + R&amp;D</td></tr>
+                  <tr><td>D7</td><td>Handling-Kosten pro Auftrag</td><td>Nicht erfasst</td><td>Controlling + Process Engineering</td></tr>
+                  <tr><td>D8</td><td>Rahmenverträge/Preisgleitklauseln</td><td>Nicht erhoben — relevant für Wellpappen-Preisrisiko</td><td>Einkauf</td></tr>
+                  <tr><td>D9</td><td>Automatisierungsgrad Etikettierung</td><td>Nicht spezifiziert</td><td>Process Engineering</td></tr>
+                  <tr><td>D10</td><td>Rechtsform Coltène Germany KG</td><td>Tochtergesellschaft (eigene Rechtspersönlichkeit) oder Zweigniederlassung? PPWR-relevant für Importeur-Rolle.</td><td>Legal</td></tr>
+                  <tr><td>D11</td><td>Aufnahme ISO 11607-1/-2 Amd 1:2023 in MDR-harmonisierte Normenliste</td><td>Aus Primärquellen nicht zweifelsfrei belegbar — vor finalem Report in EUR-Lex prüfen</td><td>RA</td></tr>
+                  <tr><td>D12</td><td>Packmittel-Budget systemische Verifikation</td><td>5,6 Mio. CHF derzeit nur handschriftlich Gabriele — SAP-Beleg prüfen</td><td>Controlling</td></tr>
+                  <tr><td>D13</td><td>Sterilisationsklassifizierung pro Produktfamilie</td><td>Zuordnung Sterilisationsverfahren (EtO, Gamma, E-Beam, Dampf) zu Produktfamilie und Primärverpackungsmaterial. Im Workshop 09.04.2026 als nicht kritisch eingestuft, aber als offene interne Klärung markiert. <strong>Kein PKA-To-Do — rein interne Klärung bei Coltène.</strong></td><td>Coltène intern (RA + Process Engineering)</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div></div>
+        </div>
+
+        <!-- Disclaimer -->
+        <div class="disclaimer">
+          <strong>Hinweis:</strong> Diese Bewertung ist eine fachliche Einschätzung auf Basis verfügbarer Quellen und stellt weder eine Zertifizierung noch eine rechtsverbindliche Konformitätserklärung dar. Für rechtssichere PPWR-Compliance wird eine Prüfung durch einen qualifizierten Verpackungsrechts-Experten empfohlen. Die regulatorische Analyse in Kapitel 6 und 7 ersetzt nicht die Prüfung durch eine zugelassene Rechtsanwältin oder einen zugelassenen Rechtsanwalt mit Spezialisierung auf EU-Verpackungsrecht. Die zitierten MedTech-Fallstudien (BCG, Abbott, Medtronic, Dentsply Sirona, Plexus) sind öffentlich verfügbare Quellen; die Übertragbarkeit auf die spezifische Coltène-Situation ist im Einzelfall zu bewerten.
+        </div>
+
+        <p style="font-size:0.7rem; color:var(--secondary);">R003 — 10.04.2026 — Maximilian Haschke — Verpackungsberatung</p>
+      </section>
+
+    </div><!-- /content-area -->
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      Maximilian Haschke — Verpackungsberatung | packend anders!
+    </footer>
+
+  </div><!-- /main -->
+</div><!-- /layout -->
+
+<script>
+(function() {
+  'use strict';
+
+  var sectionOrder = ['summary','s1','s2','s3','s4','s5','s6','s7','s8','s9'];
+  var sectionTitles = {
+    'summary': 'Management Summary',
+    's1': 'Schritt 1 — Zielbild & Erfolgskriterien',
+    's2': 'Schritt 2 — Baseline & Risiken',
+    's3': 'Schritt 3 — Produktschutz',
+    's4': 'Schritt 4 — Prozess & Arbeitsplatz',
+    's5': 'Schritt 5 — Kosten & Wirtschaftlichkeit',
+    's6': 'Schritt 6 — Nachhaltigkeit & Compliance',
+    's7': 'Schritt 7 — Daten, Standards & Dokumentation',
+    's8': 'Schritt 8 — Beschaffung & Partnerauswahl',
+    's9': 'Schritt 9 — Roadmap & Governance'
+  };
+
+  var currentSection = 'summary';
+
+  window.showSection = function(id) {
+    document.querySelectorAll('.section').forEach(function(s) {
+      s.classList.remove('active');
+    });
+    var target = document.getElementById('section-' + id);
+    if (target) target.classList.add('active');
+
+    document.querySelectorAll('.nav-item').forEach(function(btn) {
+      btn.classList.remove('active');
+    });
+    document.querySelectorAll('.nav-item').forEach(function(btn) {
+      var fn = btn.getAttribute('onclick');
+      if (fn && fn.indexOf("'" + id + "'") !== -1) {
+        btn.classList.add('active');
+      }
+    });
+
+    var titleEl = document.getElementById('topBarTitle');
+    if (titleEl) titleEl.textContent = sectionTitles[id] || id;
+
+    currentSection = id;
+
+    if (window.innerWidth <= 900) {
+      document.getElementById('sidebar').classList.remove('open');
+      document.getElementById('overlay').classList.remove('visible');
+    }
+  };
+
+  window.toggleCollapsible = function(btn) {
+    var parent = btn.parentElement;
+    parent.classList.toggle('open');
+  };
+
+  window.expandAll = function(sectionId) {
+    var section = document.getElementById(sectionId);
+    if (!section) return;
+    section.querySelectorAll('.collapsible').forEach(function(c) {
+      c.classList.add('open');
+    });
+  };
+
+  window.collapseAll = function(sectionId) {
+    var section = document.getElementById(sectionId);
+    if (!section) return;
+    section.querySelectorAll('.collapsible').forEach(function(c) {
+      c.classList.remove('open');
+    });
+  };
+
+  document.addEventListener('keydown', function(e) {
+    if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA')) return;
+    var idx = sectionOrder.indexOf(currentSection);
+    if (e.key === 'ArrowRight' && idx < sectionOrder.length - 1) {
+      showSection(sectionOrder[idx + 1]);
+    } else if (e.key === 'ArrowLeft' && idx > 0) {
+      showSection(sectionOrder[idx - 1]);
+    }
+  });
+
+  var hamburger = document.getElementById('hamburgerBtn');
+  var sidebar = document.getElementById('sidebar');
+  var overlay = document.getElementById('overlay');
+
+  if (hamburger) {
+    hamburger.addEventListener('click', function() {
+      sidebar.classList.toggle('open');
+      overlay.classList.toggle('visible');
+    });
+  }
+
+  if (overlay) {
+    overlay.addEventListener('click', function() {
+      sidebar.classList.remove('open');
+      overlay.classList.remove('visible');
+    });
+  }
+
+})();
+</script>
+</body>
+</html>
